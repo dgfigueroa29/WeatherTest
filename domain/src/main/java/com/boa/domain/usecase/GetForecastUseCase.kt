@@ -10,7 +10,7 @@ class GetForecastUseCase(
     private val forecastRepository: ForecastRepository
 ) : BaseUseCase<ForecastModel, GetForecastUseCase.Param>(scope) {
     override suspend fun getData(param: Param): ForecastModel =
-        forecastRepository.getOneCall(param.lat, param.lon)
+        forecastRepository.getOneCall(param.unitType, param.lat, param.lon)
 
-    data class Param(val lat: Double, val lon: Double)
+    data class Param(val unitType: String, val lat: Double, val lon: Double)
 }

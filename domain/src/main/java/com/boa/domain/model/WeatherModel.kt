@@ -1,8 +1,6 @@
 package com.boa.domain.model
 
 data class WeatherModel(
-    val lat: Double = 0.0,
-    val lon: Double = 0.0,
     val minTemp: Double = 0.0,
     val maxTemp: Double = 0.0,
     val pressure: Long = 0L,

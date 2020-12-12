@@ -17,6 +17,24 @@ android {
         versionName build_versions.version_name
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         consumerProguardFiles 'consumer-rules.pro'
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "room.schemaLocation": "$projectDir/schemas".toString(),
+                        "room.incremental":"true"
+                ]
+            }
+        }
+
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
     }
 
     buildTypes {
@@ -33,6 +51,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation libraries.retrofit
+    implementation libraries.retrofit_gson
+    implementation libraries.interceptor
     implementation libraries.koin
     implementation libraries.coroutines_android
     implementation libraries.coroutines_core
