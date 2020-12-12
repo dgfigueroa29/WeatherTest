@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/navigation_fragment_home">
+
+    <fragment
+        android:id="@+id/navigation_fragment_home"
+        android:name="com.boa.weathertest.ui.home.HomeFragment"
+        tools:layout="@layout/home_fragment">
+        <action
+            android:id="@+id/navigation_action_home_to_deposit"
+            app:destination="@+id/navigation_fragment_deposit" />
+        <action
+            android:id="@+id/navigation_action_home_to_withdrawal"
+            app:destination="@+id/navigation_fragment_withdrawal" />
+        <action
+            android:id="@+id/navigation_action_home_to_transfer"
+            app:destination="@+id/navigation_fragment_transfer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_fragment_deposit"
+        android:name="com.boa.weathertest.ui.deposit.DepositFragment"
+        tools:layout="@layout/deposit_fragment">
+        <action
+            android:id="@+id/navigation_action_deposit_to_home"
+            app:destination="@+id/navigation_fragment_home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_fragment_withdrawal"
+        android:name="com.boa.weathertest.ui.withdrawal.WithdrawalFragment"
+        tools:layout="@layout/withdrawal_fragment">
+        <action
+            android:id="@+id/navigation_action_withdrawal_to_home"
+            app:destination="@+id/navigation_fragment_home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_fragment_transfer"
+        android:name="com.boa.weathertest.ui.transfer.TransferFragment"
+        tools:layout="@layout/transfer_fragment">
+        <action
+            android:id="@+id/navigation_action_transfer_to_home"
+            app:destination="@+id/navigation_fragment_home" />
+    </fragment>
+</navigation>

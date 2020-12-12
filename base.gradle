@@ -1,0 +1,79 @@
+/**
+ * Shared file between builds so that they can all use the same dependencies and repositories.
+ **/
+ext.libraries = [:]
+def build_versions = [:]
+build_versions.version_code = 1
+build_versions.version_name = '1.0'
+build_versions.min_sdk = 16
+build_versions.compile_sdk = 30
+build_versions.target_sdk = 30
+build_versions.build_tools = '30.0.2'
+build_versions.application_id = 'com.boa.weathertest'
+ext.build_versions = build_versions
+
+def libraries = [:]
+//Project
+libraries.android_gradle = 'com.android.tools.build:gradle:4.1.1'
+libraries.kotlin_plugin = 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10'
+libraries.koin_plugin = 'org.koin:koin-gradle-plugin:2.1.5'
+
+//Modules
+libraries.arch = 'android.arch.core:core-testing:1.1.1'
+libraries.appcompat = 'androidx.appcompat:appcompat:1.2.0'
+libraries.cardview = 'androidx.cardview:cardview:1.0.0'
+libraries.constraintlayout = 'androidx.constraintlayout:constraintlayout:2.0.4'
+libraries.core_ktx = 'androidx.core:core-ktx:1.3.2'
+libraries.collections = 'androidx.collection:collection-ktx:1.1.0'
+libraries.fragment = 'androidx.fragment:fragment-ktx:1.2.5'
+libraries.lifecycle_extensions = 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+libraries.lifecycle_rx = 'androidx.lifecycle:lifecycle-reactivestreams-ktx:2.2.0'
+libraries.livedata_ktx = 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+libraries.viewmodel_ktx = 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+libraries.navigation = 'androidx.navigation:navigation-fragment-ktx:2.2.2'
+libraries.navigation_ui = 'androidx.navigation:navigation-fragment-ktx:2.2.2'
+libraries.recyclerview = 'androidx.recyclerview:recyclerview:1.1.0'
+libraries.room_runtime = 'androidx.room:room-runtime:2.2.5'
+libraries.room_compiler = 'androidx.room:room-compiler:2.2.5'
+libraries.swiperefreshlayout = 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+libraries.espresso_contrib = 'androidx.test.espresso:espresso-contrib:3.3.0'
+libraries.espresso_core = 'androidx.test.espresso:espresso-core:3.3.0'
+libraries.test_ext = 'androidx.test.ext:junit:1.1.2'
+libraries.rules = 'androidx.test:rules:1.2.0'
+
+libraries.glide_compiler = 'com.github.bumptech.glide:compiler:4.10.0'
+libraries.glide = 'com.github.bumptech.glide:glide:4.10.0'
+libraries.material_spinner = 'com.github.ganfra:material-spinner:2.0.0'
+
+libraries.material = 'com.google.android.material:material:1.2.1'
+libraries.analytics = 'com.google.firebase:firebase-analytics:17.4.3'
+libraries.crashlytics = 'com.google.firebase:firebase-crashlytics:17.0.3'
+
+libraries.currency_input = 'me.abhinay.input:currency-edittext:1.1'
+
+libraries.kotlin = 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.10'
+libraries.kotlin_reflect = 'org.jetbrains.kotlin:kotlin-reflect:1.4.10'
+libraries.coroutines_android = 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
+libraries.coroutines_core = 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0'
+
+libraries.koin = 'org.koin:koin-android:2.2.0-alpha-1'
+libraries.koin_scope = 'org.koin:koin-android-scope:2.2.0-alpha-1'
+libraries.koin_viewmodel = 'org.koin:koin-androidx-viewmodel:2.2.0-alpha-1'
+libraries.koin_test = 'org.koin:koin-test:2.2.0-alpha-1'
+
+libraries.interceptor = 'com.squareup.okhttp3:logging-interceptor:4.7.2'
+libraries.retrofit_gson = 'com.squareup.retrofit2:converter-gson:2.9.0'
+libraries.retrofit = 'com.squareup.retrofit2:retrofit:2.9.0'
+
+libraries.joda = 'joda-time:joda-time:2.10.6'
+
+libraries.junit = 'junit:junit:4.13.1'
+ext.libraries = libraries
+
+static def getRepositories(RepositoryHandler handler) {
+    handler.google()
+    handler.jcenter()
+    handler.maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+}
+
+ext.getRepositories = this.&getRepositories

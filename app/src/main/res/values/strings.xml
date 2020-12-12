@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">WeatherTest</string>
+    <string name="loading">Loading&#8230;</string>
+    <string name="modification_ok">Modification successful</string>
+    <string name="modification_error">Sorry. The modification could not be applied</string>
+    <string name="error">Sorry. An unknown error occurred</string>
+    <string name="confirm">Confirm</string>
+    <string name="required">Required!</string>
+    <string name="empty_list">Select cities to see the forecast&#8230;</string>
+</resources>

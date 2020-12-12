@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="material_padding_and_half">24dp</dimen>
+    <dimen name="material_padding">16dp</dimen>
+    <dimen name="material_padding_half">8dp</dimen>
+    <dimen name="text_margin">4dp</dimen>
+</resources>

@@ -1,0 +1,84 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'koin'
+}
+
+android {
+    compileSdkVersion build_versions.compile_sdk
+    buildToolsVersion build_versions.build_tools
+
+    defaultConfig {
+        applicationId build_versions.application_id
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        versionCode build_versions.version_code
+        versionName build_versions.version_name
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+        }
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation libraries.kotlin
+    implementation libraries.kotlin_reflect
+    implementation libraries.koin
+    implementation libraries.koin_viewmodel
+    implementation libraries.appcompat
+    implementation libraries.fragment
+    implementation libraries.navigation
+    implementation libraries.navigation_ui
+    implementation libraries.constraintlayout
+    implementation libraries.core_ktx
+    implementation libraries.coroutines_core
+    implementation libraries.coroutines_android
+    implementation libraries.lifecycle_extensions
+    implementation libraries.lifecycle_rx
+    implementation libraries.viewmodel_ktx
+    implementation libraries.recyclerview
+    implementation libraries.material
+    implementation libraries.cardview
+    androidTestImplementation libraries.test_ext
+    androidTestImplementation libraries.rules
+    androidTestImplementation libraries.arch
+    androidTestImplementation libraries.koin_test
+    androidTestImplementation libraries.espresso_core
+    androidTestImplementation libraries.espresso_contrib
+    androidTestImplementation libraries.junit
+    androidTestImplementation libraries.koin_test
+    testImplementation libraries.junit
+    testImplementation libraries.test_ext
+    testImplementation libraries.rules
+    testImplementation libraries.arch
+    testImplementation libraries.koin_test
+    testImplementation libraries.espresso_core
+    testImplementation libraries.espresso_contrib
+    testImplementation libraries.koin_test
+    implementation project(':domain')
+    implementation project(':data')
+}
