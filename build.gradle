@@ -1,0 +1,17 @@
+buildscript {
+    apply from: 'base.gradle'
+    getRepositories(repositories)
+    dependencies {
+        classpath libraries.android_gradle
+        classpath libraries.kotlin_plugin
+        classpath libraries.koin_plugin
+    }
+}
+
+allprojects {
+    getRepositories(repositories)
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
