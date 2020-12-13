@@ -22,6 +22,7 @@
 
     <style name="Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_marginLeft">20dp</item>
         <item name="android:layout_marginStart">20dp</item>
         <item name="android:text">@string/app_name</item>
         <item name="android:textSize">16sp</item>
@@ -40,7 +41,9 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="Button.Accent">
-        <item name="backgroundTint">@color/teal_200</item>
+    <style name="Button.Image">
+        <item name="drawableLeftCompat">@drawable/ic_back</item>
+        <item name="drawableStartCompat">@drawable/ic_back</item>
+        <item name="android:text">@string/back</item>
     </style>
 </resources>

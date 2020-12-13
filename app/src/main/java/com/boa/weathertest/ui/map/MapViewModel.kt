@@ -1,10 +1,11 @@
-package com.boa.weathertest.ui.main
+package com.boa.weathertest.ui.map
 
 import com.boa.domain.base.BaseException
 import com.boa.weathertest.base.BaseViewModel
 
-class MainViewModel : BaseViewModel<MainViewStatus>() {
-    override fun getInitialViewStatus(): MainViewStatus = MainViewStatus()
+class MapViewModel : BaseViewModel<MapViewStatus>() {
+    override fun getInitialViewStatus(): MapViewStatus = MapViewStatus()
+
     override fun onError(exception: BaseException?) {
         val viewStatus = getInitialViewStatus()
         viewStatus.isError = true

@@ -1,10 +1,16 @@
-package com.boa.weathertest.ui.main
+package com.boa.weathertest.ui.help
 
 import com.boa.domain.base.BaseException
 import com.boa.weathertest.base.BaseViewModel
+import com.boa.weathertest.util.HELP_WEB
 
-class MainViewModel : BaseViewModel<MainViewStatus>() {
-    override fun getInitialViewStatus(): MainViewStatus = MainViewStatus()
+class HelpViewModel : BaseViewModel<HelpViewStatus>() {
+    override fun getInitialViewStatus(): HelpViewStatus = HelpViewStatus()
+
+    fun initialize() {
+        resourceViewStatus.value = HelpViewStatus(HELP_WEB)
+    }
+
     override fun onError(exception: BaseException?) {
         val viewStatus = getInitialViewStatus()
         viewStatus.isError = true

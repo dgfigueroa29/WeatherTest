@@ -5,6 +5,7 @@ buildscript {
         classpath libraries.android_gradle
         classpath libraries.kotlin_plugin
         classpath libraries.koin_plugin
+        classpath libraries.google_plugin
     }
 }
 

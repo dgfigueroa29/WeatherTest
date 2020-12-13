@@ -14,7 +14,7 @@ import java.util.*
 import javax.net.ssl.HttpsURLConnection
 
 class ApiProvider {
-    val api: AppApi
+    private val api: AppApi
 
     init {
         val builder = GsonBuilder()

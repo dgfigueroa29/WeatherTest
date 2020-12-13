@@ -10,40 +10,52 @@
         android:name="com.boa.weathertest.ui.home.HomeFragment"
         tools:layout="@layout/home_fragment">
         <action
-            android:id="@+id/navigation_action_home_to_deposit"
-            app:destination="@+id/navigation_fragment_deposit" />
+            android:id="@+id/navigation_action_home_to_map"
+            app:destination="@+id/navigation_fragment_map" />
         <action
-            android:id="@+id/navigation_action_home_to_withdrawal"
-            app:destination="@+id/navigation_fragment_withdrawal" />
+            android:id="@+id/navigation_action_home_to_city"
+            app:destination="@+id/navigation_fragment_city" />
         <action
-            android:id="@+id/navigation_action_home_to_transfer"
-            app:destination="@+id/navigation_fragment_transfer" />
+            android:id="@+id/navigation_action_home_to_setting"
+            app:destination="@+id/navigation_fragment_setting" />
+        <action
+            android:id="@+id/navigation_action_home_to_help"
+            app:destination="@+id/navigation_fragment_help" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_fragment_deposit"
-        android:name="com.boa.weathertest.ui.deposit.DepositFragment"
-        tools:layout="@layout/deposit_fragment">
+        android:id="@+id/navigation_fragment_city"
+        android:name="com.boa.weathertest.ui.city.CityFragment"
+        tools:layout="@layout/city_fragment">
         <action
-            android:id="@+id/navigation_action_deposit_to_home"
+            android:id="@+id/navigation_action_city_to_home"
             app:destination="@+id/navigation_fragment_home" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_fragment_withdrawal"
-        android:name="com.boa.weathertest.ui.withdrawal.WithdrawalFragment"
-        tools:layout="@layout/withdrawal_fragment">
+        android:id="@+id/navigation_fragment_help"
+        android:name="com.boa.weathertest.ui.help.HelpFragment"
+        tools:layout="@layout/help_fragment">
         <action
-            android:id="@+id/navigation_action_withdrawal_to_home"
+            android:id="@+id/navigation_action_help_to_home"
             app:destination="@+id/navigation_fragment_home" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_fragment_transfer"
-        android:name="com.boa.weathertest.ui.transfer.TransferFragment"
-        tools:layout="@layout/transfer_fragment">
+        android:id="@+id/navigation_fragment_setting"
+        android:name="com.boa.weathertest.ui.setting.SettingFragment"
+        tools:layout="@layout/setting_fragment">
         <action
-            android:id="@+id/navigation_action_transfer_to_home"
+            android:id="@+id/navigation_action_setting_to_home"
+            app:destination="@+id/navigation_fragment_home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_fragment_map"
+        android:name="com.boa.weathertest.ui.map.MapFragment"
+        tools:layout="@layout/map_fragment">
+        <action
+            android:id="@+id/navigation_action_map_to_home"
             app:destination="@+id/navigation_fragment_home" />
     </fragment>
 </navigation>

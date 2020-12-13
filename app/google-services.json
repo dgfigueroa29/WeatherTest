@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "669546340867",
+    "firebase_url": "https://api-project-669546340867.firebaseio.com",
+    "project_id": "api-project-669546340867",
+    "storage_bucket": "api-project-669546340867.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:669546340867:android:65d65674a257becb97a436",
+        "android_client_info": {
+          "package_name": "com.boa.weathertest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "669546340867-qajrjbf28of4d7lulbgngsjf7t0o2ont.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.boa.weathertest",
+            "certificate_hash": "ce98204a6203e74eb78ce5d4002205261ca2f4c8"
+          }
+        },
+        {
+          "client_id": "669546340867-20id3a7mqv1h9cjl4h75mhpl8u6acunq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_dn_NnRfEn77jDjZ8Kc_k51bYC2u-NoY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "669546340867-20id3a7mqv1h9cjl4h75mhpl8u6acunq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

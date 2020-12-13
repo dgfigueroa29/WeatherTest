@@ -4,7 +4,14 @@
     <string name="modification_ok">Modification successful</string>
     <string name="modification_error">Sorry. The modification could not be applied</string>
     <string name="error">Sorry. An unknown error occurred</string>
-    <string name="confirm">Confirm</string>
     <string name="required">Required!</string>
     <string name="empty_list">Select cities to see the forecast&#8230;</string>
+    <string name="cities">Cities</string>
+    <string name="search">Search…</string>
+    <string name="back">Back</string>
+    <string name="no_internet">There is no Internet connection</string>
+    <string name="help">Help</string>
+    <string name="map">Map</string>
+    <string name="setting">Settings</string>
+    <string name="units">Units of measurement</string>
 </resources>

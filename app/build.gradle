@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'koin'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -17,6 +18,7 @@ android {
         versionCode build_versions.version_code
         versionName build_versions.version_name
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -61,8 +63,12 @@ dependencies {
     implementation libraries.lifecycle_rx
     implementation libraries.viewmodel_ktx
     implementation libraries.recyclerview
+    implementation libraries.multidex
     implementation libraries.material
     implementation libraries.cardview
+    implementation libraries.firebase_bom
+    implementation libraries.location
+    implementation libraries.maps
     androidTestImplementation libraries.test_ext
     androidTestImplementation libraries.rules
     androidTestImplementation libraries.arch

@@ -1,10 +1,15 @@
-package com.boa.weathertest.ui.main
+package com.boa.weathertest.ui.city
 
 import com.boa.domain.base.BaseException
+import com.boa.domain.usecase.GetForecastUseCase
 import com.boa.weathertest.base.BaseViewModel
 
-class MainViewModel : BaseViewModel<MainViewStatus>() {
-    override fun getInitialViewStatus(): MainViewStatus = MainViewStatus()
+class CityViewModel(
+    private val getForecastUseCase: GetForecastUseCase
+) :
+    BaseViewModel<CityViewStatus>() {
+    override fun getInitialViewStatus(): CityViewStatus = CityViewStatus()
+
     override fun onError(exception: BaseException?) {
         val viewStatus = getInitialViewStatus()
         viewStatus.isError = true

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="@dimen/material_padding_half"
+    android:layout_marginEnd="10dp"
+    android:layout_marginBottom="@dimen/material_padding"
+    card_view:cardCornerRadius="2dp">
+
+    <AutoCompleteTextView
+        android:id="@+id/searchCardEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/material_padding_half"
+        android:layout_marginLeft="@dimen/material_padding_half"
+        android:layout_marginTop="@dimen/material_padding_half"
+        android:layout_marginEnd="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="@dimen/material_padding_half"
+        android:autofillHints="@string/search"
+        android:background="@null"
+        android:completionThreshold="1"
+        android:drawableStart="@drawable/ic_search"
+        android:drawableLeft="@drawable/ic_search"
+        android:drawablePadding="22dp"
+        android:imeOptions="actionSearch"
+        android:inputType="textFilter"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:text=""
+        tools:ignore="LabelFor"
+        tools:text="@string/search" />
+
+    <ImageButton
+        android:id="@+id/searchCardClear"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center_vertical|end"
+        android:layout_marginEnd="@dimen/material_padding_half"
+        android:layout_marginRight="@dimen/material_padding_half"
+        android:background="?attr/selectableItemBackground"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_cancel" />
+</androidx.cardview.widget.CardView>
