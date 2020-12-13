@@ -10,12 +10,12 @@ interface CityDao {
     @Update
     fun update(entity: CityEntity)
 
-    @Query("SELECT * FROM cities ORDER BY name")
+    @Query("SELECT * FROM cities ORDER BY selected, name")
     fun getAll(): List<CityEntity>
 
-    @Query("SELECT * FROM cities WHERE name LIKE :text ORDER BY name")
+    @Query("SELECT * FROM cities WHERE LOWER(name) LIKE :text ORDER BY selected, name")
     fun getByText(text: String): List<CityEntity>
 
-    @Query("SELECT * FROM cities WHERE selected = 1 ORDER BY name")
+    @Query("SELECT * FROM cities WHERE selected = 1 ORDER BY selected, name")
     fun getSelected(): List<CityEntity>
 }
