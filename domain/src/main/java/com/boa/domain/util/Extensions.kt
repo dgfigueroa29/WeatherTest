@@ -1,6 +1,7 @@
 package com.boa.domain.util
 
 import com.boa.domain.model.CityModel
+import com.boa.domain.model.UnitType
 
 fun <T> Array<T>?.toStringList(needSort: Boolean = true): List<String> {
     val enumList = mutableListOf<String>()
@@ -8,6 +9,10 @@ fun <T> Array<T>?.toStringList(needSort: Boolean = true): List<String> {
         when (it) {
             is CityModel -> {
                 enumList.add(it.name)
+            }
+
+            is UnitType -> {
+                enumList.add(it.text)
             }
         }
     }

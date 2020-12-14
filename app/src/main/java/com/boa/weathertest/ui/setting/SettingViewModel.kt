@@ -11,6 +11,8 @@ class SettingViewModel(
     private val getUnitsUseCase: GetUnitsUseCase,
     private val saveUnitsUseCase: SaveUnitsUseCase
 ) : BaseViewModel<SettingViewStatus>() {
+    private var selectedUnit = ""
+
     override fun getInitialViewStatus(): SettingViewStatus = SettingViewStatus()
 
     fun initialize() {
@@ -20,7 +22,8 @@ class SettingViewModel(
             getUnitsUseCase.execute(null),
             {
                 viewStatus.isReady = true
-                viewStatus.currentUnits = it ?: UnitType.METRIC.text
+                selectedUnit = it ?: UnitType.METRIC.text
+                viewStatus.currentUnits = selectedUnit
                 resourceViewStatus.value = viewStatus
             },
             this::onError,
@@ -29,17 +32,20 @@ class SettingViewModel(
     }
 
     fun setUnits(value: String) {
-        val viewStatus = getInitialViewStatus()
-        BaseStatusObserver(
-            resourceViewStatus,
-            saveUnitsUseCase.execute(SaveUnitsUseCase.Param(value)),
-            {
-                viewStatus.isComplete = true
-                resourceViewStatus.value = viewStatus
-            },
-            this::onError,
-            this::onLoading
-        )
+        if (value != selectedUnit) {
+            selectedUnit = value
+            val viewStatus = getInitialViewStatus()
+            BaseStatusObserver(
+                resourceViewStatus,
+                saveUnitsUseCase.execute(SaveUnitsUseCase.Param(value)),
+                {
+                    viewStatus.isComplete = true
+                    resourceViewStatus.value = viewStatus
+                },
+                this::onError,
+                this::onLoading
+            )
+        }
     }
 
     override fun onError(exception: BaseException?) {

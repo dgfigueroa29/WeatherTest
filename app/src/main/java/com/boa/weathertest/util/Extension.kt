@@ -2,7 +2,6 @@ package com.boa.weathertest.util
 
 import android.content.Context
 import android.os.Handler
-import android.text.Editable
 import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -16,9 +15,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.boa.weathertest.R
 import com.boa.weathertest.base.OnSelectItem
-import com.google.android.material.textfield.TextInputLayout
 import java.lang.ref.WeakReference
 
 fun View.hideKeyboard() {
@@ -88,12 +85,6 @@ fun Context.toast(message: String) {
     }
 }
 
-fun TextInputLayout?.getIntValue(): Int = try {
-    Integer.valueOf(this?.editText?.text?.toString() ?: "") ?: 0
-} catch (e: Exception) {
-    0
-}
-
 fun List<String>?.toArrayAdapter(context: Context): ArrayAdapter<String> {
     val typeAdapter = ArrayAdapter(
         context,
@@ -102,29 +93,6 @@ fun List<String>?.toArrayAdapter(context: Context): ArrayAdapter<String> {
     )
     typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
     return typeAdapter
-}
-
-fun TextInputLayout?.getText() = this?.editText?.text.toString()
-
-fun TextInputLayout?.checkLength(context: WeakReference<Context>): Boolean {
-    return if (this.getText().isNotEmpty()) {
-        this?.isErrorEnabled = false
-        true
-    } else {
-        this?.isErrorEnabled = true
-        this?.error = context.get()?.getString(R.string.required)
-        false
-    }
-}
-
-fun TextInputLayout?.addWatcherLength(context: WeakReference<Context>) {
-    val txtInput = this
-    this?.editText?.addTextChangedListener(object :
-        CustomTextWatcher() {
-        override fun afterTextChanged(s: Editable?) {
-            txtInput.checkLength(context)
-        }
-    })
 }
 
 @Suppress("SetJavaScriptEnabled", "DEPRECATION")

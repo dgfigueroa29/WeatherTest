@@ -1,19 +1,35 @@
 package com.boa.weathertest.ui.map
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Criteria
+import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
+import android.view.View.VISIBLE
+import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
+import com.boa.domain.base.BaseError
+import com.boa.domain.base.BaseException
 import com.boa.weathertest.R
 import com.boa.weathertest.base.BaseFragment
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.help_fragment.*
+import kotlinx.android.synthetic.main.map_fragment.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
-class MapFragment : BaseFragment<MapViewStatus, MapViewModel>() {
+class MapFragment : BaseFragment<MapViewStatus, MapViewModel>(), OnMapReadyCallback,
+    GoogleMap.OnMapClickListener {
+    private var googleMap: GoogleMap? = null
+    private var currentPosition = LatLng(0.0, 0.0)
+    private var myMarker: Marker? = null
+
     override fun initViewModel(): MapViewModel = getViewModel()
 
     override fun getLayoutResource(): Int = R.layout.map_fragment
@@ -22,8 +38,8 @@ class MapFragment : BaseFragment<MapViewStatus, MapViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         showLoading()
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment?
-        mapFragment?.getMapAsync(callback)
-        helpBackButton.setOnClickListener {
+        mapFragment?.getMapAsync(this)
+        mapBackButton.setOnClickListener {
             onBackPressed()
         }
     }
@@ -31,24 +47,55 @@ class MapFragment : BaseFragment<MapViewStatus, MapViewModel>() {
     override fun onViewStatusUpdated(viewStatus: MapViewStatus) {
     }
 
-    private val callback = OnMapReadyCallback { googleMap ->
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    private fun onBackPressed() {
+        requireActivity().findNavController(R.id.mapFragmentRoot)
+            .navigate(R.id.navigation_action_map_to_home)
+    }
+
+    override fun onMapReady(map: GoogleMap?) {
+        googleMap = map
+        if (ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            viewModel.onError(BaseException(BaseError(requireActivity().getString(R.string.permissions))))
+            return
+        }
+
+        googleMap?.isMyLocationEnabled = true
+        googleMap?.uiSettings?.isMyLocationButtonEnabled = false
+        googleMap?.uiSettings?.isMapToolbarEnabled = false
+        googleMap?.uiSettings?.isCompassEnabled = false
+        googleMap?.uiSettings?.isIndoorLevelPickerEnabled = false
+        googleMap?.setOnMapClickListener(this)
+        val locationManager =
+            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val provider = locationManager.getBestProvider(Criteria(), false)
+        val location = locationManager.getLastKnownLocation(provider ?: "")
+        currentPosition = LatLng(location?.latitude ?: 0.0, location?.longitude ?: 0.0)
+        updatePosition()
         hideLoading()
     }
 
-    private fun onBackPressed() {
-        requireActivity().findNavController(R.id.helpFragmentRoot)
-            .navigate(R.id.navigation_action_help_to_home)
+    override fun onMapClick(latLng: LatLng?) {
+        if (latLng != null) {
+            currentPosition = latLng
+            updatePosition()
+            mapSelectButton.visibility = VISIBLE
+        }
+    }
+
+    private fun updatePosition() {
+        if (myMarker != null) {
+            myMarker!!.remove()
+        }
+
+        myMarker = googleMap?.addMarker(MarkerOptions().position(currentPosition))
+        googleMap?.moveCamera(CameraUpdateFactory.newLatLng(currentPosition))
+        googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 12f))
     }
 }
