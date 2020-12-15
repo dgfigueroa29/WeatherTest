@@ -33,13 +33,13 @@
             "notNull": true
           },
           {
-            "fieldPath": "coord.lat",
+            "fieldPath": "lat",
             "columnName": "lat",
             "affinity": "REAL",
             "notNull": true
           },
           {
-            "fieldPath": "coord.lon",
+            "fieldPath": "lon",
             "columnName": "lon",
             "affinity": "REAL",
             "notNull": true

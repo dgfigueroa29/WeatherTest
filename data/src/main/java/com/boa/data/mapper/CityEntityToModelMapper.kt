@@ -8,10 +8,10 @@ class CityEntityToModelMapper : BaseMapper<CityEntity, CityModel>() {
     override fun map(input: CityEntity): CityModel = CityModel(
         input.id,
         input.name,
-        input.state,
+        input.state ?: "",
         input.country,
-        input.coord.lat,
-        input.coord.lon,
-        input.selected
+        input.latitude,
+        input.longitude,
+        input.selected ?: false
     )
 }

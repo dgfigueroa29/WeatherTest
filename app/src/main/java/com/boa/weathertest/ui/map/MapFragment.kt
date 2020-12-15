@@ -10,8 +10,6 @@ import android.view.View
 import android.view.View.VISIBLE
 import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
-import com.boa.domain.base.BaseError
-import com.boa.domain.base.BaseException
 import com.boa.domain.model.CityModel
 import com.boa.weathertest.R
 import com.boa.weathertest.base.BaseFragment
@@ -25,6 +23,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.map_fragment.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
+
 
 class MapFragment : BaseFragment<MapViewStatus, MapViewModel>(), OnMapReadyCallback,
     GoogleMap.OnMapClickListener {
@@ -53,6 +52,16 @@ class MapFragment : BaseFragment<MapViewStatus, MapViewModel>(), OnMapReadyCallb
 
     override fun onViewStatusUpdated(viewStatus: MapViewStatus) {
         when {
+            viewStatus.isError && viewStatus.errorMessage.isNotEmpty() -> {
+                hideLoading()
+                requireContext().applicationContext.toast(viewStatus.errorMessage)
+            }
+
+            viewStatus.isError -> {
+                hideLoading()
+                requireContext().applicationContext.toast(getString(R.string.error))
+            }
+
             viewStatus.isReady -> {
                 currentLocation = viewStatus.currentLocation
             }
@@ -77,33 +86,34 @@ class MapFragment : BaseFragment<MapViewStatus, MapViewModel>(), OnMapReadyCallb
 
     override fun onMapReady(map: GoogleMap?) {
         googleMap = map
+
         if (ActivityCompat.checkSelfPermission(
                 requireActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                 requireActivity(),
                 Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
+            ) == PackageManager.PERMISSION_GRANTED
         ) {
-            viewModel.onError(BaseException(BaseError(requireActivity().getString(R.string.permissions))))
-            return
+            googleMap?.isMyLocationEnabled = true
+            googleMap?.uiSettings?.isMyLocationButtonEnabled = false
+            googleMap?.uiSettings?.isMapToolbarEnabled = false
+            googleMap?.uiSettings?.isCompassEnabled = false
+            googleMap?.uiSettings?.isIndoorLevelPickerEnabled = false
+            googleMap?.setOnMapClickListener(this)
+            val locationManager =
+                requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            val provider = locationManager.getBestProvider(Criteria(), false)
+            val location = locationManager.getLastKnownLocation(provider ?: "")
+            currentPosition = LatLng(location?.latitude ?: 0.0, location?.longitude ?: 0.0)
+            currentLocation =
+                currentLocation.copy(
+                    latitude = currentPosition.latitude,
+                    longitude = currentPosition.longitude
+                )
+            updatePosition()
+            hideLoading()
         }
-
-        googleMap?.isMyLocationEnabled = true
-        googleMap?.uiSettings?.isMyLocationButtonEnabled = false
-        googleMap?.uiSettings?.isMapToolbarEnabled = false
-        googleMap?.uiSettings?.isCompassEnabled = false
-        googleMap?.uiSettings?.isIndoorLevelPickerEnabled = false
-        googleMap?.setOnMapClickListener(this)
-        val locationManager =
-            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val provider = locationManager.getBestProvider(Criteria(), false)
-        val location = locationManager.getLastKnownLocation(provider ?: "")
-        currentPosition = LatLng(location?.latitude ?: 0.0, location?.longitude ?: 0.0)
-        currentLocation =
-            currentLocation.copy(lat = currentPosition.latitude, lon = currentPosition.longitude)
-        updatePosition()
-        hideLoading()
     }
 
     override fun onMapClick(latLng: LatLng?) {
@@ -118,15 +128,13 @@ class MapFragment : BaseFragment<MapViewStatus, MapViewModel>(), OnMapReadyCallb
     private fun updatePosition() {
         if (myMarker != null) {
             myMarker!!.remove()
-        } else {
-            viewModel.saveCity(currentLocation)
         }
 
         myMarker = googleMap?.addMarker(
             MarkerOptions().position(currentPosition).title(currentLocation.name)
         )
         googleMap?.moveCamera(CameraUpdateFactory.newLatLng(currentPosition))
-        googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 12f))
+        googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 8f))
     }
 
     private fun saveNewLocation() {

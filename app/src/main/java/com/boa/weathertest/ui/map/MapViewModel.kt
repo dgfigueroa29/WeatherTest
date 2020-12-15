@@ -23,7 +23,7 @@ class MapViewModel(
             {
                 viewStatus.isComplete = true
                 viewStatus.currentLocation =
-                    it ?: CityModel(lat = latitude, lon = longitude, selected = true)
+                    it ?: CityModel(latitude = latitude, longitude = longitude, selected = true)
                 resourceViewStatus.value = viewStatus
             },
             this::onError,

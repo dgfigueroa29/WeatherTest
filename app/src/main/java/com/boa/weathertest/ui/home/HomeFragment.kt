@@ -1,16 +1,20 @@
 package com.boa.weathertest.ui.home
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.activity.addCallback
+import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
 import com.boa.domain.model.CityModel
 import com.boa.weathertest.R
 import com.boa.weathertest.base.BaseFragment
 import com.boa.weathertest.base.OnSelectItem
 import com.boa.weathertest.util.ListAdapter
+import com.boa.weathertest.util.PERMISSION_CODE
 import com.boa.weathertest.util.build
 import com.boa.weathertest.util.toast
 import kotlinx.android.synthetic.main.home_fragment.*
@@ -45,8 +49,7 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
         val settingItem = viewHeaderToolbar.menu.findItem(R.id.menu_setting_action)
         val helpItem = viewHeaderToolbar.menu.findItem(R.id.menu_help_action)
         mapItem?.setOnMenuItemClickListener {
-            requireActivity().findNavController(R.id.homeFragmentRoot)
-                .navigate(R.id.navigation_action_home_to_map)
+            goToMap()
             true
         }
         settingItem?.setOnMenuItemClickListener {
@@ -97,5 +100,36 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
 
     override fun onSelectItem(item: String) {
         selectedAccount = item
+    }
+
+    private fun goToMap() {
+        if (ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ),
+                PERMISSION_CODE
+            )
+        } else {
+            requireActivity().findNavController(R.id.homeFragmentRoot)
+                .navigate(R.id.navigation_action_home_to_map)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        goToMap()
     }
 }

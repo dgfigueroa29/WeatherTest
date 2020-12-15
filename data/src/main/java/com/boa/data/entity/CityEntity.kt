@@ -1,6 +1,6 @@
 package com.boa.data.entity
 
-import androidx.room.Embedded
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -18,14 +18,9 @@ data class CityEntity(
     @PrimaryKey
     val id: Int = 0,
     val name: String = "",
-    val state: String = "",
+    val state: String? = "",
     val country: String = "",
-    @Embedded
-    val coord: Coord,
-    val selected: Boolean = false
+    @ColumnInfo(name = "lat") val latitude: Double = 0.0,
+    @ColumnInfo(name = "lon") val longitude: Double = 0.0,
+    val selected: Boolean? = false
 )
-
-/**
- * Coordinates
- */
-data class Coord(val lat: Double = 0.0, val lon: Double = 0.0)

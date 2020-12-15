@@ -5,7 +5,7 @@ data class CityModel(
     val name: String = "",
     val state: String = "",
     val country: String = "",
-    val lat: Double = 0.0,
-    val lon: Double = 0.0,
+    val latitude: Double = 0.0,
+    val longitude: Double = 0.0,
     val selected: Boolean = false
 )

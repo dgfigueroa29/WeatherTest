@@ -9,8 +9,8 @@ class LocationRepositoryImpl(private val locationDataSource: LocationDataSource)
     override suspend fun getFromLocation(latitude: Double, longitude: Double): CityModel =
         CityModel(
             name = locationDataSource.getFromLocation(latitude, longitude),
-            lat = latitude,
-            lon = longitude,
+            latitude = latitude,
+            longitude = longitude,
             selected = true
         )
 }

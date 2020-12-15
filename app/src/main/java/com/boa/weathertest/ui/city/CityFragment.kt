@@ -57,8 +57,8 @@ class CityFragment : BaseFragment<CityViewStatus, CityViewModel>(), OnSelectItem
                     .navigate(
                         R.id.navigation_action_city_to_home,
                         bundleOf(
-                            ARGUMENT_LAT to selectedItem.lat,
-                            ARGUMENT_LON to selectedItem.lon
+                            ARGUMENT_LAT to selectedItem.latitude,
+                            ARGUMENT_LON to selectedItem.longitude
                         )
                     )
             }
