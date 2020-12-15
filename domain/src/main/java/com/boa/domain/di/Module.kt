@@ -9,10 +9,12 @@ val domainModule = module {
     factory { GetCitiesUseCase(get(), get()) }
     factory { GetCitiesByTextUseCase(get(), get()) }
     factory { GetCitiesSelectedUseCase(get(), get()) }
+    factory { GetCurrentCityUseCase(get(), get()) }
+    factory { GetCurrentLocationUseCase(get(), get()) }
     factory { GetForecastUseCase(get(), get()) }
     factory { GetUnitsUseCase(get(), get()) }
     factory { SaveUnitsUseCase(get(), get()) }
-    factory { SelectCityUseCase(get(), get()) }
+    factory { SaveCityUseCase(get(), get()) }
 
     single { CoroutineScope(Dispatchers.IO) }
 }

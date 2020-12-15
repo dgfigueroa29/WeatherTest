@@ -5,24 +5,24 @@ import com.boa.domain.base.BaseStatusObserver
 import com.boa.domain.model.CityModel
 import com.boa.domain.usecase.GetCitiesSelectedUseCase
 import com.boa.domain.usecase.GetCitiesUseCase
-import com.boa.domain.usecase.SelectCityUseCase
+import com.boa.domain.usecase.SaveCityUseCase
 import com.boa.weathertest.base.BaseViewModel
 
 class HomeViewModel(
     private val getCitiesUseCase: GetCitiesUseCase,
     private val getCitiesSelectedUseCase: GetCitiesSelectedUseCase,
-    private val selectCityUseCase: SelectCityUseCase
+    private val saveCityUseCase: SaveCityUseCase
 ) :
     BaseViewModel<HomeViewStatus>() {
     override fun getInitialViewStatus(): HomeViewStatus = HomeViewStatus()
 
-    fun selectItem(city: CityModel) {
+    fun saveCity(city: CityModel) {
         val viewStatus = getInitialViewStatus()
         BaseStatusObserver(
             resourceViewStatus,
-            selectCityUseCase.execute(SelectCityUseCase.Param(city)),
+            saveCityUseCase.execute(SaveCityUseCase.Param(city)),
             {
-                viewStatus.isReady = true
+                viewStatus.isComplete = true
                 resourceViewStatus.value = viewStatus
             },
             this::onError,

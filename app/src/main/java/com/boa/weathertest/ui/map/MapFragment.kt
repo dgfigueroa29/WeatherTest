@@ -12,8 +12,10 @@ import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
 import com.boa.domain.base.BaseError
 import com.boa.domain.base.BaseException
+import com.boa.domain.model.CityModel
 import com.boa.weathertest.R
 import com.boa.weathertest.base.BaseFragment
+import com.boa.weathertest.util.toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -29,6 +31,7 @@ class MapFragment : BaseFragment<MapViewStatus, MapViewModel>(), OnMapReadyCallb
     private var googleMap: GoogleMap? = null
     private var currentPosition = LatLng(0.0, 0.0)
     private var myMarker: Marker? = null
+    private var currentLocation = CityModel()
 
     override fun initViewModel(): MapViewModel = getViewModel()
 
@@ -37,14 +40,34 @@ class MapFragment : BaseFragment<MapViewStatus, MapViewModel>(), OnMapReadyCallb
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showLoading()
+        viewModel.getCurrentCity()
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
         mapBackButton.setOnClickListener {
             onBackPressed()
         }
+        mapSelectButton.setOnClickListener {
+            saveNewLocation()
+        }
     }
 
     override fun onViewStatusUpdated(viewStatus: MapViewStatus) {
+        when {
+            viewStatus.isReady -> {
+                currentLocation = viewStatus.currentLocation
+            }
+
+            viewStatus.isComplete -> {
+                currentLocation = viewStatus.currentLocation
+                updatePosition()
+            }
+
+            viewStatus.isFinish -> {
+                hideLoading()
+                requireContext().applicationContext.toast(getString(R.string.modification_ok))
+                onBackPressed()
+            }
+        }
     }
 
     private fun onBackPressed() {
@@ -77,12 +100,15 @@ class MapFragment : BaseFragment<MapViewStatus, MapViewModel>(), OnMapReadyCallb
         val provider = locationManager.getBestProvider(Criteria(), false)
         val location = locationManager.getLastKnownLocation(provider ?: "")
         currentPosition = LatLng(location?.latitude ?: 0.0, location?.longitude ?: 0.0)
+        currentLocation =
+            currentLocation.copy(lat = currentPosition.latitude, lon = currentPosition.longitude)
         updatePosition()
         hideLoading()
     }
 
     override fun onMapClick(latLng: LatLng?) {
         if (latLng != null) {
+            viewModel.getCurrentLocation(latLng.latitude, latLng.longitude)
             currentPosition = latLng
             updatePosition()
             mapSelectButton.visibility = VISIBLE
@@ -92,10 +118,19 @@ class MapFragment : BaseFragment<MapViewStatus, MapViewModel>(), OnMapReadyCallb
     private fun updatePosition() {
         if (myMarker != null) {
             myMarker!!.remove()
+        } else {
+            viewModel.saveCity(currentLocation)
         }
 
-        myMarker = googleMap?.addMarker(MarkerOptions().position(currentPosition))
+        myMarker = googleMap?.addMarker(
+            MarkerOptions().position(currentPosition).title(currentLocation.name)
+        )
         googleMap?.moveCamera(CameraUpdateFactory.newLatLng(currentPosition))
         googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 12f))
+    }
+
+    private fun saveNewLocation() {
+        showLoading()
+        viewModel.saveCity(currentLocation)
     }
 }

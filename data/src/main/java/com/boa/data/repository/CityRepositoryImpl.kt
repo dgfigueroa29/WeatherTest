@@ -17,6 +17,9 @@ class CityRepositoryImpl(
     override suspend fun getByText(text: String): List<CityModel> =
         cityEntityToModelMapper.mapAll(localDataSource.getByText(text))
 
+    override suspend fun getCurrentLocation(): CityModel =
+        cityEntityToModelMapper.map(localDataSource.getCurrentLocation())
+
     override suspend fun getSelected(): List<CityModel> =
         cityEntityToModelMapper.mapAll(localDataSource.getSelected())
 

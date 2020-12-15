@@ -14,6 +14,6 @@ val appModule = module {
     viewModel { HelpViewModel() }
     viewModel { HomeViewModel(get(), get(), get()) }
     viewModel { MainViewModel() }
-    viewModel { MapViewModel() }
+    viewModel { MapViewModel(get(), get(), get()) }
     viewModel { SettingViewModel(get(), get()) }
 }
