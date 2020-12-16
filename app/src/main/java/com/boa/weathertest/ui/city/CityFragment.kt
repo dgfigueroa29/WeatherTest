@@ -25,15 +25,15 @@ class CityFragment : BaseFragment<CityViewStatus, CityViewModel>(), OnSelectItem
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showLoading()
-        viewHeaderToolbar.setNavigationIcon(R.drawable.ic_back)
-        viewHeaderToolbar.setNavigationOnClickListener {
+        viewHeaderToolbar?.setNavigationIcon(R.drawable.ic_back)
+        viewHeaderToolbar?.setNavigationOnClickListener {
             requireActivity().onBackPressed()
         }
         viewHeaderTitle.text = getString(R.string.cities)
         val contextRef = WeakReference(requireContext().applicationContext)
-        cityFragmentList.build(contextRef)
+        cityFragmentList?.build(contextRef)
         listAdapter = ListAdapter(contextRef)
-        cityFragmentList.adapter = listAdapter
+        cityFragmentList?.adapter = listAdapter
     }
 
     override fun onViewStatusUpdated(viewStatus: CityViewStatus) {

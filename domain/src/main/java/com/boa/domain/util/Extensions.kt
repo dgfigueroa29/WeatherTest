@@ -3,7 +3,7 @@ package com.boa.domain.util
 import com.boa.domain.model.CityModel
 import com.boa.domain.model.UnitType
 
-fun <T> Array<T>?.toStringList(needSort: Boolean = true): List<String> {
+fun <T> Collection<T>?.toStringList(needSort: Boolean = true): List<String> {
     val enumList = mutableListOf<String>()
     this?.takeIf { it.isNotEmpty() }?.forEach {
         when (it) {

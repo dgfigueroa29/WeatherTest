@@ -15,24 +15,13 @@ class LocationGeocoderDataSource(private val context: Context) : LocationDataSou
         var location = ""
 
         if (bestMatch != null) {
-            location = "${bestMatch.locality}, ${bestMatch.adminArea}"
-            println("BestMatch CountryCode: " + bestMatch.countryCode)
-            println("BestMatch Country: " + bestMatch.countryName)
-            println("BestMatch Locality: " + bestMatch.locality)
-            println("BestMatch SubLocality: " + bestMatch.subLocality)
-            println("BestMatch AdminArea: " + bestMatch.adminArea)
-            println("BestMatch SubAdminArea: " + bestMatch.subAdminArea)
-            println("BestMatch Thoroughfare: " + bestMatch.thoroughfare)
-            println("BestMatch SubThoroughfare: " + bestMatch.subThoroughfare)
-            println("BestMatch Premises: " + bestMatch.premises)
-            println("BestMatch PostalCode: " + bestMatch.postalCode)
-            println("BestMatch Phone: " + bestMatch.phone)
-            println("BestMatch MaxAddressLineIndex: " + bestMatch.maxAddressLineIndex)
-            println("BestMatch Longitude: " + bestMatch.longitude)
-            println("BestMatch Latitude: " + bestMatch.latitude)
-            println("BestMatch FeatureName: " + bestMatch.featureName)
-            println("BestMatch Extras: " + bestMatch.extras)
-            println("BestMatch Lines: " + bestMatch.getAddressLine(0))
+            location = if (bestMatch.locality.isNullOrEmpty()) {
+                bestMatch.subAdminArea
+            } else {
+                bestMatch.locality
+            }
+
+            location += ", ${bestMatch.adminArea}"
         }
 
         return location

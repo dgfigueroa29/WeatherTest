@@ -18,7 +18,7 @@ class LocalCityDataSource(private val database: AppDatabase) : LocalDataSource {
     override suspend fun getSelected(): List<CityEntity> = database.cityDao().getSelected()
 
     override suspend fun save(entity: CityEntity): Boolean = try {
-        database.cityDao().update(entity)
+        database.cityDao().insert(entity)
         true
     } catch (e: Exception) {
         e.printStackTrace()

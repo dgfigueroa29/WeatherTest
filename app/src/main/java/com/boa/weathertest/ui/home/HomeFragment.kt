@@ -6,25 +6,30 @@ import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.inputmethod.EditorInfo
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.activity.addCallback
 import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
 import com.boa.domain.model.CityModel
+import com.boa.domain.util.toStringList
 import com.boa.weathertest.R
 import com.boa.weathertest.base.BaseFragment
 import com.boa.weathertest.base.OnSelectItem
-import com.boa.weathertest.util.ListAdapter
-import com.boa.weathertest.util.PERMISSION_CODE
-import com.boa.weathertest.util.build
-import com.boa.weathertest.util.toast
+import com.boa.weathertest.util.*
 import kotlinx.android.synthetic.main.home_fragment.*
+import kotlinx.android.synthetic.main.search_card.*
 import kotlinx.android.synthetic.main.view_header.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import java.lang.ref.WeakReference
 
 class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem<String> {
     private var selectedAccount = ""
+    private var cities = listOf<CityModel>()
     private lateinit var listAdapter: ListAdapter<CityModel>
+    private var searchEditText: AutoCompleteTextView? = null
 
     override fun initViewModel(): HomeViewModel = getViewModel()
 
@@ -40,28 +45,49 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showLoading()
-        viewHeaderToolbar.inflateMenu(R.menu.menu)
+        searchCardEditText?.hideKeyboard()
+        viewHeaderToolbar?.inflateMenu(R.menu.menu)
         val contextRef = WeakReference(requireContext().applicationContext)
-        homeFragmentList.build(contextRef)
+        homeFragmentList?.build(contextRef)
         listAdapter = ListAdapter(contextRef)
-        homeFragmentList.adapter = listAdapter
-        val mapItem = viewHeaderToolbar.menu.findItem(R.id.menu_map_action)
-        val settingItem = viewHeaderToolbar.menu.findItem(R.id.menu_setting_action)
-        val helpItem = viewHeaderToolbar.menu.findItem(R.id.menu_help_action)
+        homeFragmentList?.adapter = listAdapter
+        val mapItem = viewHeaderToolbar?.menu?.findItem(R.id.menu_map_action)
+        val settingItem = viewHeaderToolbar?.menu?.findItem(R.id.menu_setting_action)
+        val helpItem = viewHeaderToolbar?.menu?.findItem(R.id.menu_help_action)
+        searchEditText = homeFragmentSearch.getInput()
+        searchEditText?.setSelection(searchEditText?.text?.length ?: 0)
+        searchEditText?.setHint(R.string.search)
+        searchEditText?.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                showLoading()
+                viewModel.getSuggestions(searchCardEditText?.text.toString())
+                return@setOnEditorActionListener true
+            }
+
+            return@setOnEditorActionListener false
+        }
+        searchEditText?.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+            showLoading()
+            viewModel.saveCity(position)
+        }
         mapItem?.setOnMenuItemClickListener {
+            searchCardClear?.performClick()
             goToMap()
             true
         }
         settingItem?.setOnMenuItemClickListener {
+            searchCardClear?.performClick()
             requireActivity().findNavController(R.id.homeFragmentRoot)
                 .navigate(R.id.navigation_action_home_to_setting)
             true
         }
         helpItem?.setOnMenuItemClickListener {
+            searchCardClear?.performClick()
             requireActivity().findNavController(R.id.homeFragmentRoot)
                 .navigate(R.id.navigation_action_home_to_help)
             true
         }
+        viewModel.getSelected()
     }
 
     override fun onViewStatusUpdated(viewStatus: HomeViewStatus) {
@@ -84,17 +110,37 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
                 hideLoading()
             }
 
-            else -> {
-                listAdapter.setData(viewStatus.cityList)
-
-                if (viewStatus.cityList.isNotEmpty()) {
-                    homeFragmentEmptyText.visibility = GONE
-                } else {
-                    homeFragmentEmptyText.visibility = VISIBLE
-                }
-
+            viewStatus.isComplete -> {
+                viewModel.getSelected()
                 hideLoading()
+                requireContext().applicationContext.toast(getString(R.string.modification_ok))
             }
+        }
+
+        if (viewStatus.suggestedCities.isNotEmpty()) {
+            cities = viewStatus.suggestedCities
+            searchCardEditText?.setAdapter(
+                ArrayAdapter(
+                    requireActivity(),
+                    android.R.layout.simple_spinner_item,
+                    viewStatus.suggestedCities.toStringList(false)
+                )
+            )
+
+            hideLoading()
+            searchEditText?.showDropDown()
+        }
+
+        if (viewStatus.cityList.isNotEmpty()) {
+            listAdapter.setData(viewStatus.cityList)
+
+            if (viewStatus.cityList.isNotEmpty()) {
+                homeFragmentEmptyText?.visibility = GONE
+            } else {
+                homeFragmentEmptyText?.visibility = VISIBLE
+            }
+
+            hideLoading()
         }
     }
 

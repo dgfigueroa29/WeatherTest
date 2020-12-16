@@ -3,21 +3,24 @@ package com.boa.weathertest.ui.home
 import com.boa.domain.base.BaseException
 import com.boa.domain.base.BaseStatusObserver
 import com.boa.domain.model.CityModel
+import com.boa.domain.usecase.GetCitiesByTextUseCase
 import com.boa.domain.usecase.GetCitiesSelectedUseCase
-import com.boa.domain.usecase.GetCitiesUseCase
 import com.boa.domain.usecase.SaveCityUseCase
 import com.boa.weathertest.base.BaseViewModel
 
 class HomeViewModel(
-    private val getCitiesUseCase: GetCitiesUseCase,
+    private val getCitiesByTextUseCase: GetCitiesByTextUseCase,
     private val getCitiesSelectedUseCase: GetCitiesSelectedUseCase,
     private val saveCityUseCase: SaveCityUseCase
 ) :
     BaseViewModel<HomeViewStatus>() {
+    private var cities = listOf<CityModel>()
+
     override fun getInitialViewStatus(): HomeViewStatus = HomeViewStatus()
 
-    fun saveCity(city: CityModel) {
+    fun saveCity(position: Int) {
         val viewStatus = getInitialViewStatus()
+        val city = cities[position].copy(selected = true)
         BaseStatusObserver(
             resourceViewStatus,
             saveCityUseCase.execute(SaveCityUseCase.Param(city)),
@@ -30,13 +33,14 @@ class HomeViewModel(
         )
     }
 
-    fun getSuggestions() {
+    fun getSuggestions(text: String) {
         val viewStatus = getInitialViewStatus()
         BaseStatusObserver(
             resourceViewStatus,
-            getCitiesUseCase.execute(null),
+            getCitiesByTextUseCase.execute(GetCitiesByTextUseCase.Param(text)),
             {
-                viewStatus.suggestedCities = it ?: listOf()
+                cities = it ?: listOf()
+                viewStatus.suggestedCities = cities
                 resourceViewStatus.value = viewStatus
             },
             this::onError,

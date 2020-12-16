@@ -19,7 +19,7 @@ class MapViewModel(
         val viewStatus = getInitialViewStatus()
         BaseStatusObserver(
             resourceViewStatus,
-            getCurrentLocationUseCase.execute(null),
+            getCurrentLocationUseCase.execute(GetCurrentLocationUseCase.Param(latitude, longitude)),
             {
                 viewStatus.isComplete = true
                 viewStatus.currentLocation =
@@ -46,6 +46,20 @@ class MapViewModel(
         )
     }
 
+    fun updateCurrentCity(city: CityModel) {
+        val viewStatus = getInitialViewStatus()
+        BaseStatusObserver(
+            resourceViewStatus,
+            saveCityUseCase.execute(SaveCityUseCase.Param(city)),
+            {
+                viewStatus.currentLocation = city
+                resourceViewStatus.value = viewStatus
+            },
+            this::onError,
+            this::onLoading
+        )
+    }
+
     fun saveCity(city: CityModel) {
         val viewStatus = getInitialViewStatus()
         BaseStatusObserver(
@@ -53,6 +67,7 @@ class MapViewModel(
             saveCityUseCase.execute(SaveCityUseCase.Param(city)),
             {
                 viewStatus.isFinish = true
+                viewStatus.currentLocation = city
                 resourceViewStatus.value = viewStatus
             },
             this::onError,

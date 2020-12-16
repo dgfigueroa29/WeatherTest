@@ -1,14 +1,15 @@
 package com.boa.data.datasource.local.db.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 import com.boa.data.entity.CityEntity
 
 @Dao
 interface CityDao {
-    @Update
-    fun update(entity: CityEntity)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(entity: CityEntity)
 
     @Query("SELECT * FROM cities ORDER BY selected, name")
     fun getAll(): List<CityEntity>

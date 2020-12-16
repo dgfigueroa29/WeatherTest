@@ -26,9 +26,9 @@ class HelpFragment : BaseFragment<HelpViewStatus, HelpViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         showLoading()
         viewModel.initialize()
-        helpWebView.settings.build()
-        helpWebView.webViewClient = MyWebClient()
-        helpWebView.setOnKeyListener(OnKeyListener { _, keyCode, event ->
+        helpWebView?.settings.build()
+        helpWebView?.webViewClient = MyWebClient()
+        helpWebView?.setOnKeyListener(OnKeyListener { _, keyCode, event ->
             try {
                 if (event.action != KeyEvent.ACTION_DOWN) {
                     return@OnKeyListener true
@@ -49,7 +49,7 @@ class HelpFragment : BaseFragment<HelpViewStatus, HelpViewModel>() {
 
     override fun onViewStatusUpdated(viewStatus: HelpViewStatus) {
         if (viewStatus.url.isNotEmpty()) {
-            helpWebView.loadUrl(viewStatus.url)
+            helpWebView?.loadUrl(viewStatus.url)
         }
     }
 
@@ -61,10 +61,10 @@ class HelpFragment : BaseFragment<HelpViewStatus, HelpViewModel>() {
     @Suppress("DEPRECATION")
     override fun onDestroy() {
         super.onDestroy()
-        helpWebView.clearHistory()
-        helpWebView.clearView()
-        helpWebView.removeAllViews()
-        helpWebView.destroy()
+        helpWebView?.clearHistory()
+        helpWebView?.clearView()
+        helpWebView?.removeAllViews()
+        helpWebView?.destroy()
     }
 
     private inner class MyWebClient : WebViewClient() {

@@ -23,8 +23,8 @@ class SettingFragment : BaseFragment<SettingViewStatus, SettingViewModel>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showLoading()
-        viewHeaderToolbar.setNavigationIcon(R.drawable.ic_back)
-        viewHeaderToolbar.setNavigationOnClickListener {
+        viewHeaderToolbar?.setNavigationIcon(R.drawable.ic_back)
+        viewHeaderToolbar?.setNavigationOnClickListener {
             requireActivity().onBackPressed()
         }
         viewHeaderTitle.text = getString(R.string.setting)
@@ -54,7 +54,7 @@ class SettingFragment : BaseFragment<SettingViewStatus, SettingViewModel>(),
                     this,
                     WeakReference(requireContext().applicationContext),
                     viewStatus.currentUnits,
-                    UnitType.values().toStringList()
+                    UnitType.values().asList().toStringList()
                 )
             }
 

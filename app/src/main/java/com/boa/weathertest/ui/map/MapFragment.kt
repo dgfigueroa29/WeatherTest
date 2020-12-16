@@ -42,10 +42,10 @@ class MapFragment : BaseFragment<MapViewStatus, MapViewModel>(), OnMapReadyCallb
         viewModel.getCurrentCity()
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
-        mapBackButton.setOnClickListener {
+        mapBackButton?.setOnClickListener {
             onBackPressed()
         }
-        mapSelectButton.setOnClickListener {
+        mapSelectButton?.setOnClickListener {
             saveNewLocation()
         }
     }
@@ -106,10 +106,12 @@ class MapFragment : BaseFragment<MapViewStatus, MapViewModel>(), OnMapReadyCallb
             val provider = locationManager.getBestProvider(Criteria(), false)
             val location = locationManager.getLastKnownLocation(provider ?: "")
             currentPosition = LatLng(location?.latitude ?: 0.0, location?.longitude ?: 0.0)
+            viewModel.getCurrentLocation(currentPosition.latitude, currentPosition.longitude)
             currentLocation =
                 currentLocation.copy(
                     latitude = currentPosition.latitude,
-                    longitude = currentPosition.longitude
+                    longitude = currentPosition.longitude,
+                    selected = true
                 )
             updatePosition()
             hideLoading()
@@ -121,13 +123,15 @@ class MapFragment : BaseFragment<MapViewStatus, MapViewModel>(), OnMapReadyCallb
             viewModel.getCurrentLocation(latLng.latitude, latLng.longitude)
             currentPosition = latLng
             updatePosition()
-            mapSelectButton.visibility = VISIBLE
+            mapSelectButton?.visibility = VISIBLE
         }
     }
 
     private fun updatePosition() {
         if (myMarker != null) {
             myMarker!!.remove()
+        } else {
+            viewModel.updateCurrentCity(currentLocation)
         }
 
         myMarker = googleMap?.addMarker(
@@ -139,6 +143,6 @@ class MapFragment : BaseFragment<MapViewStatus, MapViewModel>(), OnMapReadyCallb
 
     private fun saveNewLocation() {
         showLoading()
-        viewModel.saveCity(currentLocation)
+        viewModel.saveCity(currentLocation.copy(id = 0, selected = true))
     }
 }

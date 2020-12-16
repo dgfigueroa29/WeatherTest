@@ -31,7 +31,7 @@ val dataModule = module {
 
     single<CityRepository> { CityRepositoryImpl(get(), get(), get()) }
     single<ForecastRepository> { ForecastRepositoryImpl(get(), get()) }
-    single<LocationRepository> { LocationRepositoryImpl(get()) }
+    single<LocationRepository> { LocationRepositoryImpl(get(), get(), get()) }
     single<PreferenceRepository> { PreferenceRepositoryImpl(get()) }
 
     single { CityEntityToModelMapper() }
