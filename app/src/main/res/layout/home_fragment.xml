@@ -33,6 +33,7 @@
         android:layout_margin="@dimen/material_padding"
         android:gravity="center_horizontal"
         android:text="@string/empty_list"
+        android:textColor="@color/black"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"

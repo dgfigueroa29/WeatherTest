@@ -14,15 +14,14 @@
         android:id="@+id/itemTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginTop="@dimen/material_padding"
+        android:layout_margin="@dimen/material_padding_half"
         android:ellipsize="end"
         android:lines="1"
-        android:textColor="?android:attr/textColorPrimary"
+        android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Deposit" />
+        tools:text="City" />
 
     <TextView
         style="@style/TextAppearance.AppCompat.Small"
@@ -30,22 +29,34 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/text_margin"
         android:fontFamily="sans-serif-light"
-        android:textColor="?android:attr/textColorPrimary"
+        android:textColor="@color/black"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="@+id/itemTitle"
         app:layout_constraintTop_toBottomOf="@+id/itemTitle"
-        tools:text="27/11/20" />
+        tools:text="test" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginTop="@dimen/material_padding"
+        android:layout_margin="@dimen/material_padding"
         android:ellipsize="end"
         android:fontFamily="sans-serif-black"
         android:lines="1"
-        android:textColor="?android:attr/textColorPrimary"
+        android:textColor="@color/black"
         android:textSize="15sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="$ 0" />
+        tools:text="test" />
+
+    <ImageButton
+        android:id="@+id/itemRemove"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_margin="@dimen/material_padding_half"
+        android:background="@null"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

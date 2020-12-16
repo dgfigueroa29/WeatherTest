@@ -33,6 +33,20 @@ class HomeViewModel(
         )
     }
 
+    fun removeCity(city: CityModel) {
+        val viewStatus = getInitialViewStatus()
+        BaseStatusObserver(
+            resourceViewStatus,
+            saveCityUseCase.execute(SaveCityUseCase.Param(city.copy(selected = false))),
+            {
+                viewStatus.isComplete = true
+                resourceViewStatus.value = viewStatus
+            },
+            this::onError,
+            this::onLoading
+        )
+    }
+
     fun getSuggestions(text: String) {
         val viewStatus = getInitialViewStatus()
         BaseStatusObserver(

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.boa.weathertest.R
 import com.boa.weathertest.base.OnSelectItem
 import java.lang.ref.WeakReference
 
@@ -27,6 +28,12 @@ fun Fragment?.receiveSafeString(key: String): String = try {
     this?.requireArguments()?.getString(key, "") ?: ""
 } catch (e: Exception) {
     ""
+}
+
+fun Fragment?.receiveSafeDouble(key: String): Double = try {
+    this?.requireArguments()?.getString(key, "0.0")?.toDouble() ?: 0.0
+} catch (e: Exception) {
+    0.0
 }
 
 fun RecyclerView?.build(context: WeakReference<Context>) {
@@ -88,10 +95,10 @@ fun Context.toast(message: String) {
 fun List<String>?.toArrayAdapter(context: Context): ArrayAdapter<String> {
     val typeAdapter = ArrayAdapter(
         context,
-        android.R.layout.simple_spinner_item,
+        R.layout.spinner_item,
         this ?: listOf()
     )
-    typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+    typeAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
     return typeAdapter
 }
 

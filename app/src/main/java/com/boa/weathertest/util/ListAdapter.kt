@@ -7,12 +7,14 @@ import androidx.core.view.ViewGroupCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.boa.domain.model.CityModel
 import com.boa.weathertest.R
+import com.boa.weathertest.base.OnRemoveItem
 import com.boa.weathertest.base.OnSelectItem
 import java.lang.ref.WeakReference
 
 class ListAdapter<T>(
     private val context: WeakReference<Context>,
-    private val onSelectItem: OnSelectItem<T>? = null
+    private val onSelectItem: OnSelectItem<T>? = null,
+    private val onRemoveItem: OnRemoveItem<T>? = null
 ) :
     RecyclerView.Adapter<ListViewHolder>() {
     private var list = listOf<T>()
@@ -26,8 +28,12 @@ class ListAdapter<T>(
         ViewGroupCompat.setTransitionGroup(view as ViewGroup, true)
         val holder = ListViewHolder(view)
 
-        holder.itemRoot.setOnClickListener {
+        holder.itemTitle.setOnClickListener {
             onSelectItem?.onSelectItem(list[holder.adapterPosition])
+        }
+
+        holder.itemRemove.setOnClickListener {
+            onRemoveItem?.onRemoveItem(list[holder.adapterPosition])
         }
 
         return holder

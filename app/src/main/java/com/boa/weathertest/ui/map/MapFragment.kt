@@ -137,6 +137,7 @@ class MapFragment : BaseFragment<MapViewStatus, MapViewModel>(), OnMapReadyCallb
         myMarker = googleMap?.addMarker(
             MarkerOptions().position(currentPosition).title(currentLocation.name)
         )
+        myMarker?.showInfoWindow()
         googleMap?.moveCamera(CameraUpdateFactory.newLatLng(currentPosition))
         googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 8f))
     }

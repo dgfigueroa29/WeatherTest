@@ -8,6 +8,7 @@ import com.boa.data.datasource.local.LocalCityDataSource
 import com.boa.data.datasource.local.PreferenceStringDataSource
 import com.boa.data.datasource.local.db.AppDatabase
 import com.boa.data.datasource.location.LocationGeocoderDataSource
+import com.boa.data.datasource.remote.ApiProvider
 import com.boa.data.datasource.remote.RemoteForecastDataSource
 import com.boa.data.mapper.CityEntityToModelMapper
 import com.boa.data.mapper.CityModelToEntityMapper
@@ -38,5 +39,10 @@ val dataModule = module {
     single { CityModelToEntityMapper() }
     single { ForecastResponseToModelMapper() }
 
+    single { ApiProvider() }
+    single {
+        val apiProvider: ApiProvider = get()
+        apiProvider.api
+    }
     single { AppDatabase.getAppDatabase(androidContext()) }
 }

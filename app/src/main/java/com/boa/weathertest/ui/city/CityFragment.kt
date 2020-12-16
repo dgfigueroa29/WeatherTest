@@ -2,21 +2,18 @@ package com.boa.weathertest.ui.city
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
-import androidx.navigation.findNavController
-import com.boa.domain.model.CityModel
 import com.boa.weathertest.R
 import com.boa.weathertest.base.BaseFragment
-import com.boa.weathertest.base.OnSelectItem
 import com.boa.weathertest.util.*
 import kotlinx.android.synthetic.main.city_fragment.*
 import kotlinx.android.synthetic.main.view_header.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import java.lang.ref.WeakReference
 
-class CityFragment : BaseFragment<CityViewStatus, CityViewModel>(), OnSelectItem<CityModel> {
-    private var selectedItem = CityModel()
-    private lateinit var listAdapter: ListAdapter<CityModel>
+class CityFragment : BaseFragment<CityViewStatus, CityViewModel>() {
+    private var cityName = ""
+    private var latitude = 0.0
+    private var longitude = 0.0
 
     override fun initViewModel(): CityViewModel = getViewModel()
 
@@ -29,11 +26,12 @@ class CityFragment : BaseFragment<CityViewStatus, CityViewModel>(), OnSelectItem
         viewHeaderToolbar?.setNavigationOnClickListener {
             requireActivity().onBackPressed()
         }
-        viewHeaderTitle.text = getString(R.string.cities)
+        viewHeaderTitle?.text = getString(R.string.cities)
+        cityName = receiveSafeString(ARGUMENT_CITY)
+        latitude = receiveSafeDouble(ARGUMENT_LAT)
+        longitude = receiveSafeDouble(ARGUMENT_LON)
         val contextRef = WeakReference(requireContext().applicationContext)
-        cityFragmentList?.build(contextRef)
-        listAdapter = ListAdapter(contextRef)
-        cityFragmentList?.adapter = listAdapter
+        cityFragmentName?.text = cityName
     }
 
     override fun onViewStatusUpdated(viewStatus: CityViewStatus) {
@@ -53,23 +51,11 @@ class CityFragment : BaseFragment<CityViewStatus, CityViewModel>(), OnSelectItem
             }
 
             viewStatus.isReady -> {
-                requireActivity().findNavController(R.id.cityFragmentRoot)
-                    .navigate(
-                        R.id.navigation_action_city_to_home,
-                        bundleOf(
-                            ARGUMENT_LAT to selectedItem.latitude,
-                            ARGUMENT_LON to selectedItem.longitude
-                        )
-                    )
             }
 
             else -> {
                 hideLoading()
             }
         }
-    }
-
-    override fun onSelectItem(item: CityModel) {
-        selectedItem = item
     }
 }

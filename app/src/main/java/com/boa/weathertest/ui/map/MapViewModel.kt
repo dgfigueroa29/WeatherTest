@@ -1,5 +1,6 @@
 package com.boa.weathertest.ui.map
 
+import android.util.Log
 import com.boa.domain.base.BaseException
 import com.boa.domain.base.BaseStatusObserver
 import com.boa.domain.model.CityModel
@@ -21,6 +22,7 @@ class MapViewModel(
             resourceViewStatus,
             getCurrentLocationUseCase.execute(GetCurrentLocationUseCase.Param(latitude, longitude)),
             {
+                Log.w("LOCATION", "$it")
                 viewStatus.isComplete = true
                 viewStatus.currentLocation =
                     it ?: CityModel(latitude = latitude, longitude = longitude, selected = true)
@@ -47,32 +49,36 @@ class MapViewModel(
     }
 
     fun updateCurrentCity(city: CityModel) {
-        val viewStatus = getInitialViewStatus()
-        BaseStatusObserver(
-            resourceViewStatus,
-            saveCityUseCase.execute(SaveCityUseCase.Param(city)),
-            {
-                viewStatus.currentLocation = city
-                resourceViewStatus.value = viewStatus
-            },
-            this::onError,
-            this::onLoading
-        )
+        if (city.name.isNotEmpty()) {
+            val viewStatus = getInitialViewStatus()
+            BaseStatusObserver(
+                resourceViewStatus,
+                saveCityUseCase.execute(SaveCityUseCase.Param(city)),
+                {
+                    viewStatus.currentLocation = city
+                    resourceViewStatus.value = viewStatus
+                },
+                this::onError,
+                this::onLoading
+            )
+        }
     }
 
     fun saveCity(city: CityModel) {
-        val viewStatus = getInitialViewStatus()
-        BaseStatusObserver(
-            resourceViewStatus,
-            saveCityUseCase.execute(SaveCityUseCase.Param(city)),
-            {
-                viewStatus.isFinish = true
-                viewStatus.currentLocation = city
-                resourceViewStatus.value = viewStatus
-            },
-            this::onError,
-            this::onLoading
-        )
+        if (city.name.isNotEmpty()) {
+            val viewStatus = getInitialViewStatus()
+            BaseStatusObserver(
+                resourceViewStatus,
+                saveCityUseCase.execute(SaveCityUseCase.Param(city)),
+                {
+                    viewStatus.isFinish = true
+                    viewStatus.currentLocation = city
+                    resourceViewStatus.value = viewStatus
+                },
+                this::onError,
+                this::onLoading
+            )
+        }
     }
 
     override fun onError(exception: BaseException?) {

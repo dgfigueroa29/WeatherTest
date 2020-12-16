@@ -27,7 +27,7 @@ class SettingFragment : BaseFragment<SettingViewStatus, SettingViewModel>(),
         viewHeaderToolbar?.setNavigationOnClickListener {
             requireActivity().onBackPressed()
         }
-        viewHeaderTitle.text = getString(R.string.setting)
+        viewHeaderTitle?.text = getString(R.string.setting)
         viewModel.initialize()
     }
 

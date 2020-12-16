@@ -12,11 +12,13 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.activity.addCallback
 import androidx.core.app.ActivityCompat
+import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import com.boa.domain.model.CityModel
 import com.boa.domain.util.toStringList
 import com.boa.weathertest.R
 import com.boa.weathertest.base.BaseFragment
+import com.boa.weathertest.base.OnRemoveItem
 import com.boa.weathertest.base.OnSelectItem
 import com.boa.weathertest.util.*
 import kotlinx.android.synthetic.main.home_fragment.*
@@ -25,8 +27,8 @@ import kotlinx.android.synthetic.main.view_header.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import java.lang.ref.WeakReference
 
-class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem<String> {
-    private var selectedAccount = ""
+class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem<CityModel>,
+    OnRemoveItem<CityModel> {
     private var cities = listOf<CityModel>()
     private lateinit var listAdapter: ListAdapter<CityModel>
     private var searchEditText: AutoCompleteTextView? = null
@@ -49,7 +51,7 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
         viewHeaderToolbar?.inflateMenu(R.menu.menu)
         val contextRef = WeakReference(requireContext().applicationContext)
         homeFragmentList?.build(contextRef)
-        listAdapter = ListAdapter(contextRef)
+        listAdapter = ListAdapter(contextRef, this, this)
         homeFragmentList?.adapter = listAdapter
         val mapItem = viewHeaderToolbar?.menu?.findItem(R.id.menu_map_action)
         val settingItem = viewHeaderToolbar?.menu?.findItem(R.id.menu_setting_action)
@@ -59,6 +61,7 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
         searchEditText?.setHint(R.string.search)
         searchEditText?.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                searchEditText?.hideKeyboard()
                 showLoading()
                 viewModel.getSuggestions(searchCardEditText?.text.toString())
                 return@setOnEditorActionListener true
@@ -71,22 +74,29 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
             viewModel.saveCity(position)
         }
         mapItem?.setOnMenuItemClickListener {
+            searchEditText?.hideKeyboard()
             searchCardClear?.performClick()
             goToMap()
             true
         }
         settingItem?.setOnMenuItemClickListener {
+            searchEditText?.hideKeyboard()
             searchCardClear?.performClick()
             requireActivity().findNavController(R.id.homeFragmentRoot)
                 .navigate(R.id.navigation_action_home_to_setting)
             true
         }
         helpItem?.setOnMenuItemClickListener {
+            searchEditText?.hideKeyboard()
             searchCardClear?.performClick()
             requireActivity().findNavController(R.id.homeFragmentRoot)
                 .navigate(R.id.navigation_action_home_to_help)
             true
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
         viewModel.getSelected()
     }
 
@@ -144,8 +154,20 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
         }
     }
 
-    override fun onSelectItem(item: String) {
-        selectedAccount = item
+    override fun onSelectItem(item: CityModel) {
+        requireActivity().findNavController(R.id.homeFragmentRoot)
+            .navigate(
+                R.id.navigation_action_home_to_city,
+                bundleOf(
+                    ARGUMENT_CITY to item.name,
+                    ARGUMENT_LAT to "${item.latitude}",
+                    ARGUMENT_LON to "${item.longitude}"
+                )
+            )
+    }
+
+    override fun onRemoveItem(item: CityModel) {
+        viewModel.removeCity(item)
     }
 
     private fun goToMap() {

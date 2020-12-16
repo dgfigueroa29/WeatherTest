@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cityFragmentRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -15,40 +14,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.boa.weathertest.view.SearchCardView
-        android:id="@+id/cityFragmentSearch"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/material_padding_and_half"
-        android:background="@color/purple_500"
-        android:elevation="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cityFragmentHeader"
-        tools:targetApi="lollipop" />
-
     <TextView
+        android:id="@+id/cityFragmentName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/material_padding"
         android:gravity="center_horizontal"
         android:text="@string/empty_list"
         android:textAlignment="center"
+        android:textColor="@color/black"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cityFragmentSearch" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/cityFragmentList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:clipToPadding="false"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cityFragmentSearch" />
+        app:layout_constraintTop_toBottomOf="@+id/cityFragmentHeader" />
 
     <ProgressBar
         style="?android:progressBarStyleLarge"
@@ -56,8 +34,8 @@
         android:layout_height="wrap_content"
         android:textColor="?android:attr/textColorPrimary"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/cityFragmentSearch"
+        app:layout_constraintBottom_toBottomOf="@+id/cityFragmentHeader"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cityFragmentSearch" />
+        app:layout_constraintTop_toBottomOf="@+id/cityFragmentName" />
 </androidx.constraintlayout.widget.ConstraintLayout>
