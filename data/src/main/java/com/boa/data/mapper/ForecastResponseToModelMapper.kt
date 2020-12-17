@@ -16,7 +16,12 @@ class ForecastResponseToModelMapper : BaseMapper<ApiResponse, ForecastModel>() {
             input.current.wind_speed,
             input.current.wind_deg,
             input.current.weather.firstOrNull()?.main ?: "",
-            input.current.weather.firstOrNull()?.description ?: ""
+            input.current.weather.firstOrNull()?.description ?: "",
+            if (input.current.weather.firstOrNull()?.icon.isNullOrEmpty()) {
+                ""
+            } else {
+                "http://openweathermap.org/img/wn/${input.current.weather.firstOrNull()?.icon}@2x.png"
+            }
         )
         val daily: MutableList<WeatherModel> = mutableListOf()
         input.daily.takeIf { it.isNotEmpty() }?.forEach {
@@ -30,7 +35,12 @@ class ForecastResponseToModelMapper : BaseMapper<ApiResponse, ForecastModel>() {
                     it.wind_speed,
                     it.wind_deg,
                     it.weather.firstOrNull()?.main ?: "",
-                    it.weather.firstOrNull()?.description ?: ""
+                    it.weather.firstOrNull()?.description ?: "",
+                    if (input.current.weather.firstOrNull()?.icon.isNullOrEmpty()) {
+                        ""
+                    } else {
+                        "http://openweathermap.org/img/wn/${input.current.weather.firstOrNull()?.icon}@2x.png"
+                    }
                 )
             )
         }

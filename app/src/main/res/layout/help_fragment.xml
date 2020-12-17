@@ -9,7 +9,7 @@
         android:id="@+id/helpBackButton"
         style="@style/Button"
         android:text="@string/back"
-        android:layout_margin="@dimen/material_padding_half"
+        android:layout_margin="@dimen/half_dimen"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

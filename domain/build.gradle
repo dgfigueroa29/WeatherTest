@@ -35,4 +35,5 @@ dependencies {
     implementation libraries.coroutines_core
     implementation libraries.coroutines_android
     implementation libraries.lifecycle_rx
+    api libraries.timber
 }

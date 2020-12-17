@@ -16,7 +16,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/material_padding"
+        android:layout_margin="@dimen/one_dimen"
         android:text="@string/units"
         android:textColor="@color/black"
         android:textSize="16sp"
@@ -28,7 +28,7 @@
         android:id="@+id/settingFragmentSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/material_padding"
+        android:layout_marginTop="@dimen/one_dimen"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent"

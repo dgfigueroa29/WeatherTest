@@ -37,7 +37,7 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:padding">@dimen/material_padding_half</item>
+        <item name="android:padding">@dimen/half_dimen</item>
         <item name="backgroundTint">@color/purple_500</item>
         <item name="android:textSize">14sp</item>
     </style>

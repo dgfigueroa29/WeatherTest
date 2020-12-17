@@ -1,6 +1,5 @@
 package com.boa.weathertest.ui.map
 
-import android.util.Log
 import com.boa.domain.base.BaseException
 import com.boa.domain.base.BaseStatusObserver
 import com.boa.domain.model.CityModel
@@ -22,7 +21,6 @@ class MapViewModel(
             resourceViewStatus,
             getCurrentLocationUseCase.execute(GetCurrentLocationUseCase.Param(latitude, longitude)),
             {
-                Log.w("LOCATION", "$it")
                 viewStatus.isComplete = true
                 viewStatus.currentLocation =
                     it ?: CityModel(latitude = latitude, longitude = longitude, selected = true)

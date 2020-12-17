@@ -69,6 +69,9 @@ dependencies {
     implementation libraries.firebase_bom
     implementation libraries.location
     implementation libraries.maps
+    implementation libraries.glide
+    kapt libraries.glide_compiler
+    api libraries.conscrypt
     androidTestImplementation libraries.test_ext
     androidTestImplementation libraries.rules
     androidTestImplementation libraries.arch

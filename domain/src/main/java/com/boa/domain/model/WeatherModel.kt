@@ -9,5 +9,6 @@ data class WeatherModel(
     val windSpeed: Double = 0.0,
     val windDeg: Int = 0,
     val main: String = "",
-    val description: String = ""
+    val description: String = "",
+    val icon: String = ""
 )

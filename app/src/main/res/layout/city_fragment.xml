@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cityFragmentRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -11,22 +12,168 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/cityFragmentName"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/material_padding"
-        android:gravity="center_horizontal"
-        android:text="@string/empty_list"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cityFragmentHeader" />
+        app:layout_constraintTop_toBottomOf="@+id/cityFragmentHeader">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/cityFragmentName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/one_dimen"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="City" />
+
+            <TextView
+                android:id="@+id/cityFragmentTemperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/one_dimen"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cityFragmentName"
+                tools:text="20°" />
+
+            <TextView
+                android:id="@+id/cityFragmentTempUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/fivefold_dimen"
+                android:layout_marginLeft="@dimen/fivefold_dimen"
+                android:layout_marginTop="@dimen/double_dimen"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cityFragmentName"
+                tools:text="C" />
+
+            <ImageView
+                android:id="@+id/cityFragmentImage"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginStart="@dimen/double_dimen"
+                android:layout_marginLeft="@dimen/double_dimen"
+                android:layout_marginTop="@dimen/one_dimen"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/app_name"
+                android:src="@mipmap/ic_launcher"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@+id/cityFragmentTempUnit"
+                app:layout_constraintStart_toEndOf="@+id/cityFragmentTempUnit"
+                app:layout_constraintStart_toStartOf="@+id/cityFragmentTempUnit"
+                app:layout_constraintTop_toBottomOf="@+id/cityFragmentName" />
+
+            <TextView
+                android:id="@+id/cityFragmentDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/one_dimen"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cityFragmentTemperature"
+                tools:text="18° / 22° Sunny" />
+
+            <TextView
+                android:id="@+id/cityFragmentHumidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/one_dimen"
+                android:drawablePadding="@dimen/quarter_dimen"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:visibility="gone"
+                app:drawableLeftCompat="@drawable/ic_humidity"
+                app:drawableStartCompat="@drawable/ic_humidity"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cityFragmentDetail"
+                tools:text="45%" />
+
+            <TextView
+                android:id="@+id/cityFragmentRain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/quadruple_dimen"
+                android:layout_marginLeft="@dimen/quadruple_dimen"
+                android:layout_marginTop="@dimen/one_dimen"
+                android:drawablePadding="@dimen/quarter_dimen"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:visibility="gone"
+                app:drawableLeftCompat="@drawable/ic_rain"
+                app:drawableStartCompat="@drawable/ic_rain"
+                app:layout_constraintLeft_toLeftOf="@+id/cityFragmentHumidity"
+                app:layout_constraintStart_toEndOf="@+id/cityFragmentHumidity"
+                app:layout_constraintStart_toStartOf="@+id/cityFragmentHumidity"
+                app:layout_constraintTop_toBottomOf="@+id/cityFragmentDetail"
+                tools:text="0%" />
+
+            <TextView
+                android:id="@+id/cityFragmentWind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/fivefold_dimen"
+                android:layout_marginLeft="@dimen/fivefold_dimen"
+                android:layout_marginTop="@dimen/one_dimen"
+                android:drawablePadding="@dimen/quarter_dimen"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:visibility="gone"
+                app:drawableLeftCompat="@drawable/ic_wind"
+                app:drawableStartCompat="@drawable/ic_wind"
+                app:layout_constraintLeft_toLeftOf="@+id/cityFragmentRain"
+                app:layout_constraintStart_toEndOf="@+id/cityFragmentRain"
+                app:layout_constraintStart_toStartOf="@+id/cityFragmentRain"
+                app:layout_constraintTop_toBottomOf="@+id/cityFragmentDetail"
+                tools:text="10" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cityFragmentList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cityFragmentHumidity" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <ProgressBar
         style="?android:progressBarStyleLarge"
@@ -35,7 +182,9 @@
         android:textColor="?android:attr/textColorPrimary"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/cityFragmentHeader"
-        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cityFragmentName" />
+        app:layout_constraintTop_toBottomOf="@+id/cityFragmentHeader" />
 </androidx.constraintlayout.widget.ConstraintLayout>

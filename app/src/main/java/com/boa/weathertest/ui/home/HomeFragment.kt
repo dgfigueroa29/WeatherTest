@@ -14,6 +14,7 @@ import androidx.activity.addCallback
 import androidx.core.app.ActivityCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
+import androidx.transition.TransitionManager
 import com.boa.domain.model.CityModel
 import com.boa.domain.util.toStringList
 import com.boa.weathertest.R
@@ -21,6 +22,7 @@ import com.boa.weathertest.base.BaseFragment
 import com.boa.weathertest.base.OnRemoveItem
 import com.boa.weathertest.base.OnSelectItem
 import com.boa.weathertest.util.*
+import com.boa.weathertest.view.Stagger
 import kotlinx.android.synthetic.main.home_fragment.*
 import kotlinx.android.synthetic.main.search_card.*
 import kotlinx.android.synthetic.main.view_header.*
@@ -142,6 +144,7 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
         }
 
         if (viewStatus.cityList.isNotEmpty()) {
+            TransitionManager.beginDelayedTransition(homeFragmentList, Stagger())
             listAdapter.setData(viewStatus.cityList)
 
             if (viewStatus.cityList.isNotEmpty()) {

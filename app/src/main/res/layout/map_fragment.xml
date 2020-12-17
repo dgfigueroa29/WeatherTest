@@ -8,7 +8,7 @@
     <Button
         android:id="@+id/mapBackButton"
         style="@style/Button"
-        android:layout_margin="@dimen/material_padding_half"
+        android:layout_margin="@dimen/half_dimen"
         android:text="@string/back"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,14 +17,14 @@
     <Button
         android:id="@+id/mapSelectButton"
         style="@style/Button"
-        android:layout_margin="@dimen/material_padding_half"
+        android:layout_margin="@dimen/half_dimen"
         android:text="@string/select"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mapView"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"

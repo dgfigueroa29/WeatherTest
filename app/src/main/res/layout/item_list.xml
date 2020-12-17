@@ -5,16 +5,16 @@
     android:id="@+id/itemRoot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="@dimen/material_padding_half"
-    android:paddingTop="@dimen/material_padding"
-    android:paddingEnd="@dimen/material_padding_half"
-    android:paddingBottom="@dimen/material_padding">
+    android:paddingStart="@dimen/half_dimen"
+    android:paddingTop="@dimen/one_dimen"
+    android:paddingEnd="@dimen/half_dimen"
+    android:paddingBottom="@dimen/one_dimen">
 
     <TextView
         android:id="@+id/itemTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/material_padding_half"
+        android:layout_margin="@dimen/half_dimen"
         android:ellipsize="end"
         android:lines="1"
         android:textColor="@color/black"
@@ -27,7 +27,7 @@
         style="@style/TextAppearance.AppCompat.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/text_margin"
+        android:layout_marginTop="@dimen/quarter_dimen"
         android:fontFamily="sans-serif-light"
         android:textColor="@color/black"
         android:visibility="gone"
@@ -38,7 +38,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/material_padding"
+        android:layout_margin="@dimen/one_dimen"
         android:ellipsize="end"
         android:fontFamily="sans-serif-black"
         android:lines="1"
@@ -53,7 +53,7 @@
         android:id="@+id/itemRemove"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_margin="@dimen/material_padding_half"
+        android:layout_margin="@dimen/half_dimen"
         android:background="@null"
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_cancel"

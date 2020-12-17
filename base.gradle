@@ -56,7 +56,11 @@ libraries.firebase_core = 'com.google.firebase:firebase-core'
 libraries.analytics = 'com.google.firebase:firebase-analytics-ktx'
 libraries.crashlytics = 'com.google.firebase:firebase-crashlytics:17.0.3'
 
+libraries.timber = 'com.jakewharton.timber:timber:4.7.1'
+
 libraries.currency_input = 'me.abhinay.input:currency-edittext:1.1'
+
+libraries.conscrypt = 'org.conscrypt:conscrypt-android:2.5.1'
 
 libraries.kotlin = 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.10'
 libraries.kotlin_reflect = 'org.jetbrains.kotlin:kotlin-reflect:1.4.10'
