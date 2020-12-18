@@ -47,6 +47,7 @@ class CityFragment : BaseFragment<CityViewStatus, CityViewModel>() {
     override fun onViewStatusUpdated(viewStatus: CityViewStatus) {
         when {
             viewStatus.currentUnits.isNotEmpty() -> {
+                listAdapter.currentUnits = viewStatus.currentUnits
                 viewModel.getForecast(latitude, longitude)
             }
 

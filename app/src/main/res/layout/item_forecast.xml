@@ -2,13 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/itemForecastRoot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="@dimen/half_dimen"
-    android:paddingTop="@dimen/one_dimen"
-    android:paddingEnd="@dimen/half_dimen"
-    android:paddingBottom="@dimen/one_dimen">
+    android:padding="@dimen/quarter_dimen">
 
     <TextView
         android:id="@+id/itemForecastTemperature"
@@ -27,12 +23,12 @@
 
     <ImageView
         android:id="@+id/itemForecastImage"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginStart="@dimen/double_dimen"
-        android:layout_marginLeft="@dimen/double_dimen"
+        android:layout_marginStart="@dimen/fivefold_dimen"
+        android:layout_marginLeft="@dimen/fivefold_dimen"
         android:layout_marginTop="@dimen/one_dimen"
         android:adjustViewBounds="true"
         android:contentDescription="@string/app_name"
@@ -47,62 +43,85 @@
         android:id="@+id/itemForecastDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/one_dimen"
+        android:layout_marginStart="@dimen/fivefold_dimen"
+        android:layout_marginLeft="@dimen/fivefold_dimen"
+        android:layout_marginTop="@dimen/one_dimen"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemForecastTemperature"
-        tools:text="18° / 22° Sunny" />
+        app:layout_constraintLeft_toLeftOf="@+id/itemForecastImage"
+        app:layout_constraintStart_toEndOf="@+id/itemForecastImage"
+        app:layout_constraintStart_toStartOf="@+id/itemForecastImage"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Sunny" />
 
-    <TextView
-        android:id="@+id/itemForecastHumidity"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/one_dimen"
-        android:drawablePadding="@dimen/quarter_dimen"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        app:drawableLeftCompat="@drawable/ic_humidity"
-        app:drawableStartCompat="@drawable/ic_humidity"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/half_dimen"
+        android:weightSum="3"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemForecastDetail"
-        tools:text="45%" />
+        app:layout_constraintTop_toBottomOf="@+id/itemForecastTemperature">
 
-    <TextView
-        android:id="@+id/itemForecastRain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/quadruple_dimen"
-        android:layout_marginLeft="@dimen/quadruple_dimen"
-        android:layout_marginTop="@dimen/one_dimen"
-        android:drawablePadding="@dimen/quarter_dimen"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        app:drawableLeftCompat="@drawable/ic_rain"
-        app:drawableStartCompat="@drawable/ic_rain"
-        app:layout_constraintLeft_toLeftOf="@+id/itemForecastHumidity"
-        app:layout_constraintStart_toEndOf="@+id/itemForecastHumidity"
-        app:layout_constraintStart_toStartOf="@+id/itemForecastHumidity"
-        app:layout_constraintTop_toBottomOf="@+id/itemForecastDetail"
-        tools:text="0%" />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="@dimen/quarter_dimen"
+            android:layout_marginRight="@dimen/quarter_dimen"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_humidity" />
 
-    <TextView
-        android:id="@+id/itemForecastWind"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/quadruple_dimen"
-        android:layout_marginLeft="@dimen/quadruple_dimen"
-        android:layout_marginTop="@dimen/one_dimen"
-        android:drawablePadding="@dimen/quarter_dimen"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        app:drawableLeftCompat="@drawable/ic_wind"
-        app:drawableStartCompat="@drawable/ic_wind"
-        app:layout_constraintLeft_toLeftOf="@+id/itemForecastRain"
-        app:layout_constraintStart_toEndOf="@+id/itemForecastRain"
-        app:layout_constraintStart_toStartOf="@+id/itemForecastRain"
-        app:layout_constraintTop_toBottomOf="@+id/itemForecastDetail"
-        tools:text="10" />
+        <TextView
+            android:id="@+id/itemForecastHumidity"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/double_dimen"
+            android:drawablePadding="@dimen/quarter_dimen"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            tools:text="45%" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="@dimen/quarter_dimen"
+            android:layout_marginLeft="@dimen/quarter_dimen"
+            android:layout_marginEnd="@dimen/quarter_dimen"
+            android:layout_marginRight="@dimen/quarter_dimen"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_rain" />
+
+        <TextView
+            android:id="@+id/itemForecastRain"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/double_dimen"
+            android:layout_marginStart="@dimen/half_dimen"
+            android:layout_marginLeft="@dimen/half_dimen"
+            android:drawablePadding="@dimen/quarter_dimen"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            tools:text="0%" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="@dimen/quarter_dimen"
+            android:layout_marginLeft="@dimen/quarter_dimen"
+            android:layout_marginEnd="@dimen/quarter_dimen"
+            android:layout_marginRight="@dimen/quarter_dimen"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_wind" />
+
+        <TextView
+            android:id="@+id/itemForecastWind"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/double_dimen"
+            android:layout_marginStart="@dimen/half_dimen"
+            android:layout_marginLeft="@dimen/half_dimen"
+            android:drawablePadding="@dimen/quarter_dimen"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            tools:text="10" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

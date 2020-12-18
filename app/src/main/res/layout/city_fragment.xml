@@ -2,9 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cityFragmentRoot"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <include
         android:id="@+id/cityFragmentHeader"
@@ -107,59 +106,71 @@
                 app:layout_constraintTop_toBottomOf="@+id/cityFragmentTemperature"
                 tools:text="18° / 22° Sunny" />
 
-            <TextView
-                android:id="@+id/cityFragmentHumidity"
+            <LinearLayout
+                android:id="@+id/cityFragmentData"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/one_dimen"
-                android:drawablePadding="@dimen/quarter_dimen"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:visibility="gone"
-                app:drawableLeftCompat="@drawable/ic_humidity"
-                app:drawableStartCompat="@drawable/ic_humidity"
+                android:orientation="horizontal"
+                android:weightSum="3"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cityFragmentDetail"
-                tools:text="45%" />
+                app:layout_constraintTop_toBottomOf="@+id/cityFragmentDetail">
 
-            <TextView
-                android:id="@+id/cityFragmentRain"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/quadruple_dimen"
-                android:layout_marginLeft="@dimen/quadruple_dimen"
-                android:layout_marginTop="@dimen/one_dimen"
-                android:drawablePadding="@dimen/quarter_dimen"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:visibility="gone"
-                app:drawableLeftCompat="@drawable/ic_rain"
-                app:drawableStartCompat="@drawable/ic_rain"
-                app:layout_constraintLeft_toLeftOf="@+id/cityFragmentHumidity"
-                app:layout_constraintStart_toEndOf="@+id/cityFragmentHumidity"
-                app:layout_constraintStart_toStartOf="@+id/cityFragmentHumidity"
-                app:layout_constraintTop_toBottomOf="@+id/cityFragmentDetail"
-                tools:text="0%" />
+                <TextView
+                    android:id="@+id/cityFragmentHumidity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/double_dimen"
+                    android:layout_weight="0.75"
+                    android:drawablePadding="@dimen/quarter_dimen"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    app:drawableLeftCompat="@drawable/ic_humidity"
+                    app:drawableStartCompat="@drawable/ic_humidity"
+                    tools:text="45%" />
 
-            <TextView
-                android:id="@+id/cityFragmentWind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/fivefold_dimen"
-                android:layout_marginLeft="@dimen/fivefold_dimen"
-                android:layout_marginTop="@dimen/one_dimen"
-                android:drawablePadding="@dimen/quarter_dimen"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:visibility="gone"
-                app:drawableLeftCompat="@drawable/ic_wind"
-                app:drawableStartCompat="@drawable/ic_wind"
-                app:layout_constraintLeft_toLeftOf="@+id/cityFragmentRain"
-                app:layout_constraintStart_toEndOf="@+id/cityFragmentRain"
-                app:layout_constraintStart_toStartOf="@+id/cityFragmentRain"
-                app:layout_constraintTop_toBottomOf="@+id/cityFragmentDetail"
-                tools:text="10" />
+                <TextView
+                    android:id="@+id/cityFragmentRain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/double_dimen"
+                    android:layout_marginStart="@dimen/one_dimen"
+                    android:layout_marginLeft="@dimen/one_dimen"
+                    android:layout_weight="0.75"
+                    android:drawablePadding="@dimen/quarter_dimen"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    app:drawableLeftCompat="@drawable/ic_rain"
+                    app:drawableStartCompat="@drawable/ic_rain"
+                    tools:text="0%" />
+
+                <TextView
+                    android:id="@+id/cityFragmentWind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/double_dimen"
+                    android:layout_marginStart="@dimen/one_dimen"
+                    android:layout_marginLeft="@dimen/one_dimen"
+                    android:layout_weight="1.5"
+                    android:drawablePadding="@dimen/quarter_dimen"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    app:drawableLeftCompat="@drawable/ic_wind"
+                    app:drawableStartCompat="@drawable/ic_wind"
+                    tools:text="10" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/cityFragmentDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/half_dimen"
+                android:layout_marginBottom="@dimen/half_dimen"
+                android:background="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cityFragmentData" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/cityFragmentList"
@@ -171,7 +182,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cityFragmentHumidity" />
+                app:layout_constraintTop_toBottomOf="@+id/cityFragmentDivider" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
