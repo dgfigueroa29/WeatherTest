@@ -14,7 +14,7 @@ ext.build_versions = build_versions
 
 def libraries = [:]
 //Project
-libraries.android_gradle = 'com.android.tools.build:gradle:4.1.1'
+libraries.android_gradle = 'com.android.tools.build:gradle:4.2.0'
 libraries.kotlin_plugin = 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10'
 libraries.koin_plugin = 'org.koin:koin-gradle-plugin:2.1.5'
 libraries.google_plugin = 'com.google.gms:google-services:4.3.4'

@@ -34,6 +34,7 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
     private var cities = listOf<CityModel>()
     private lateinit var listAdapter: ListAdapter<CityModel>
     private var searchEditText: AutoCompleteTextView? = null
+    private var goToMap = false
 
     override fun initViewModel(): HomeViewModel = getViewModel()
 
@@ -51,6 +52,13 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
         showLoading()
         searchCardEditText?.hideKeyboard()
         viewHeaderToolbar?.inflateMenu(R.menu.menu)
+        requestPermissions(
+            arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ),
+            PERMISSION_STORAGE_CODE
+        )
         val contextRef = WeakReference(requireContext().applicationContext)
         homeFragmentList?.build(contextRef)
         listAdapter = ListAdapter(contextRef, this, this)
@@ -78,6 +86,7 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
         mapItem?.setOnMenuItemClickListener {
             searchEditText?.hideKeyboard()
             searchCardClear?.performClick()
+            goToMap = true
             goToMap()
             true
         }
@@ -154,6 +163,8 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
             }
 
             hideLoading()
+        } else {
+            hideLoading()
         }
     }
 
@@ -188,12 +199,16 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_FINE_LOCATION
                 ),
-                PERMISSION_CODE
+                PERMISSION_MAP_CODE
             )
         } else {
-            requireActivity().findNavController(R.id.homeFragmentRoot)
-                .navigate(R.id.navigation_action_home_to_map)
+            if (goToMap) {
+                goToMap = false
+                requireActivity().findNavController(R.id.homeFragmentRoot)
+                    .navigate(R.id.navigation_action_home_to_map)
+            }
         }
+        hideLoading()
     }
 
     override fun onRequestPermissionsResult(

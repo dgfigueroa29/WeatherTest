@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="fivefold_dimen">80dp</dimen>
-    <dimen name="quadruple_dimen">64dp</dimen>
     <dimen name="double_dimen">32dp</dimen>
     <dimen name="one_and_half_dimen">24dp</dimen>
     <dimen name="one_dimen">16dp</dimen>

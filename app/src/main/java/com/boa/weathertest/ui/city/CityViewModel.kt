@@ -9,7 +9,6 @@ import com.boa.domain.model.WindSpeed
 import com.boa.domain.usecase.GetForecastUseCase
 import com.boa.domain.usecase.GetUnitsUseCase
 import com.boa.weathertest.base.BaseViewModel
-import timber.log.Timber
 import kotlin.math.roundToInt
 
 class CityViewModel(
@@ -49,8 +48,6 @@ class CityViewModel(
                 }
 
                 val currentForecast = it ?: ForecastModel()
-
-                Timber.e("FORECAST: $currentForecast")
                 viewStatus.daily = currentForecast.daily
                 viewStatus.currentIcon = currentForecast.current.icon
                 viewStatus.currentTemp = "${currentForecast.current.minTemp.roundToInt()}°"
@@ -61,15 +58,15 @@ class CityViewModel(
                 viewStatus.currentWind = "${currentForecast.current.windSpeed} $windSpeed"
                 viewStatus.currentUnitTemp = when (selectedUnit) {
                     UnitType.IMPERIAL.text -> {
-                        UnitTemp.FAHRENHEIT.text.take(0)
+                        UnitTemp.FAHRENHEIT.text.take(1)
                     }
 
                     UnitType.METRIC.text -> {
-                        UnitTemp.CELSIUS.text.take(0)
+                        UnitTemp.CELSIUS.text.take(1)
                     }
 
                     else -> {
-                        UnitTemp.KELVIN.text.take(0)
+                        UnitTemp.KELVIN.text.take(1)
                     }
                 }
                 viewStatus.isReady = true
