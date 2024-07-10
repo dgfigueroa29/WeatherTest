@@ -7,10 +7,9 @@ plugins {
 
 android {
     compileSdkVersion build_versions.compile_sdk
-    buildToolsVersion build_versions.build_tools
 
     defaultConfig {
-        namespace build_versions.application_id
+        namespace build_versions.domain_id
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode build_versions.version_code

@@ -23,7 +23,16 @@ import com.boa.weathertest.R
 import com.boa.weathertest.base.BaseFragment
 import com.boa.weathertest.base.OnRemoveItem
 import com.boa.weathertest.base.OnSelectItem
-import com.boa.weathertest.util.*
+import com.boa.weathertest.databinding.HomeFragmentBinding
+import com.boa.weathertest.util.ARGUMENT_CITY
+import com.boa.weathertest.util.ARGUMENT_LAT
+import com.boa.weathertest.util.ARGUMENT_LON
+import com.boa.weathertest.util.ListAdapter
+import com.boa.weathertest.util.PERMISSION_MAP_CODE
+import com.boa.weathertest.util.PERMISSION_STORAGE_CODE
+import com.boa.weathertest.util.build
+import com.boa.weathertest.util.hideKeyboard
+import com.boa.weathertest.util.toast
 import com.boa.weathertest.view.Stagger
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import java.lang.ref.WeakReference
@@ -46,7 +55,7 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
         savedInstanceState: Bundle?
     ): View? {
         binding = HomeFragmentBinding.inflate(inflater, container, false)
-        return binding?.root as View?
+        return binding?.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,8 +68,8 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showLoading()
-        binding?.searchCardEditText?.hideKeyboard()
-        binding?.viewHeaderToolbar?.inflateMenu(R.menu.menu)
+        binding?.homeFragmentSearch?.searchCardEditText?.hideKeyboard()
+        binding?.homeFragmentHeader?.viewHeaderToolbar?.inflateMenu(R.menu.menu)
         requestPermissions(
             arrayOf(
                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -72,17 +81,20 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
         binding?.homeFragmentList?.build(contextRef)
         listAdapter = ListAdapter(contextRef, this, this)
         binding?.homeFragmentList?.adapter = listAdapter
-        val mapItem = binding?.viewHeaderToolbar?.menu?.findItem(R.id.menu_map_action)
-        val settingItem = binding?.viewHeaderToolbar?.menu?.findItem(R.id.menu_setting_action)
-        val helpItem = binding?.viewHeaderToolbar?.menu?.findItem(R.id.menu_help_action)
-        searchEditText = binding?.homeFragmentSearch.getInput()
+        val mapItem =
+            binding?.homeFragmentHeader?.viewHeaderToolbar?.menu?.findItem(R.id.menu_map_action)
+        val settingItem =
+            binding?.homeFragmentHeader?.viewHeaderToolbar?.menu?.findItem(R.id.menu_setting_action)
+        val helpItem =
+            binding?.homeFragmentHeader?.viewHeaderToolbar?.menu?.findItem(R.id.menu_help_action)
+        searchEditText = binding?.homeFragmentSearch?.getInput()
         searchEditText?.setSelection(searchEditText?.text?.length ?: 0)
         searchEditText?.setHint(R.string.search)
         searchEditText?.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 searchEditText?.hideKeyboard()
                 showLoading()
-                viewModel.getSuggestions(binding?.searchCardEditText?.text.toString())
+                viewModel.getSuggestions(binding?.homeFragmentSearch?.searchCardEditText?.text.toString())
                 return@setOnEditorActionListener true
             }
 
@@ -94,21 +106,21 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
         }
         mapItem?.setOnMenuItemClickListener {
             searchEditText?.hideKeyboard()
-            binding?.searchCardClear?.performClick()
+            //binding?.homeFragmentSearch?.searchCardClear?.performClick()
             goToMap = true
             goToMap()
             true
         }
         settingItem?.setOnMenuItemClickListener {
             searchEditText?.hideKeyboard()
-            binding?.searchCardClear?.performClick()
+            //binding?.homeFragmentSearch?.searchCardClear?.performClick()
             requireActivity().findNavController(R.id.homeFragmentRoot)
                 .navigate(R.id.navigation_action_home_to_setting)
             true
         }
         helpItem?.setOnMenuItemClickListener {
             searchEditText?.hideKeyboard()
-            binding?.searchCardClear?.performClick()
+            //binding?.homeFragmentSearch?.searchCardClear?.performClick()
             requireActivity().findNavController(R.id.homeFragmentRoot)
                 .navigate(R.id.navigation_action_home_to_help)
             true
@@ -149,7 +161,7 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
 
         if (viewStatus.suggestedCities.isNotEmpty()) {
             cities = viewStatus.suggestedCities
-            binding?.searchCardEditText?.setAdapter(
+            binding?.homeFragmentSearch?.searchCardEditText?.setAdapter(
                 ArrayAdapter(
                     requireActivity(),
                     android.R.layout.simple_spinner_item,
@@ -162,7 +174,12 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
         }
 
         if (viewStatus.cityList.isNotEmpty()) {
-            TransitionManager.beginDelayedTransition(homeFragmentList, Stagger())
+            binding?.homeFragmentList?.let {
+                TransitionManager.beginDelayedTransition(
+                    it,
+                    Stagger()
+                )
+            }
             listAdapter.setData(viewStatus.cityList)
 
             if (viewStatus.cityList.isNotEmpty()) {

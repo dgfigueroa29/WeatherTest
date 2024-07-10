@@ -13,8 +13,8 @@ class ForecastResponseToModelMapper : BaseMapper<ApiResponse, ForecastModel>() {
             input.current.pressure,
             input.current.humidity,
             input.current.clouds,
-            input.current.wind_speed,
-            input.current.wind_deg,
+            input.current.windSpeed,
+            input.current.windDeg,
             input.current.weather.firstOrNull()?.main ?: "",
             input.current.weather.firstOrNull()?.description ?: "",
             if (input.current.weather.firstOrNull()?.icon.isNullOrEmpty()) {
@@ -32,8 +32,8 @@ class ForecastResponseToModelMapper : BaseMapper<ApiResponse, ForecastModel>() {
                     it.pressure,
                     it.humidity,
                     it.clouds,
-                    it.wind_speed,
-                    it.wind_deg,
+                    it.windSpeed,
+                    it.windDeg,
                     it.weather.firstOrNull()?.main ?: "",
                     it.weather.firstOrNull()?.description ?: "",
                     if (input.current.weather.firstOrNull()?.icon.isNullOrEmpty()) {

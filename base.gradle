@@ -10,6 +10,8 @@ build_versions.compile_sdk = 35
 build_versions.target_sdk = 35
 build_versions.build_tools = '30.0.2'
 build_versions.application_id = 'com.boa.weathertest'
+build_versions.data_id = 'com.boa.weathertest.data'
+build_versions.domain_id = 'com.boa.weathertest.domain'
 ext.build_versions = build_versions
 
 def libraries = [:]

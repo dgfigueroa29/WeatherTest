@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.AutoCompleteTextView
 import android.widget.FrameLayout
+import android.widget.ImageButton
 import com.boa.weathertest.R
 
 class SearchCardView : FrameLayout {
@@ -28,7 +29,7 @@ class SearchCardView : FrameLayout {
 
     private fun init(context: Context) {
         val view = LayoutInflater.from(context).inflate(R.layout.search_card, this, true)
-        val searchCardClear = view.findViewById(R.id.searchCardClear)
+        val searchCardClear: ImageButton = view.findViewById(R.id.searchCardClear)
         searchCardEditText = view.findViewById(R.id.searchCardEditText)
         searchCardClear.setOnClickListener { searchCardEditText?.text = null }
     }

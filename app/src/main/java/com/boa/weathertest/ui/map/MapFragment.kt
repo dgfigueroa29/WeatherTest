@@ -15,6 +15,7 @@ import androidx.navigation.findNavController
 import com.boa.domain.model.CityModel
 import com.boa.weathertest.R
 import com.boa.weathertest.base.BaseFragment
+import com.boa.weathertest.databinding.MapFragmentBinding
 import com.boa.weathertest.util.toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -44,7 +45,7 @@ class MapFragment : BaseFragment<MapViewStatus, MapViewModel>(), OnMapReadyCallb
         savedInstanceState: Bundle?
     ): View? {
         binding = MapFragmentBinding.inflate(inflater, container, false)
-        return binding?.root as View?
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -130,9 +131,9 @@ class MapFragment : BaseFragment<MapViewStatus, MapViewModel>(), OnMapReadyCallb
     }
 
     override fun onMapClick(latLng: LatLng) {
-            viewModel.getCurrentLocation(latLng.latitude, latLng.longitude)
-            currentPosition = latLng
-            updatePosition()
+        viewModel.getCurrentLocation(latLng.latitude, latLng.longitude)
+        currentPosition = latLng
+        updatePosition()
         binding?.mapSelectButton?.visibility = VISIBLE
     }
 

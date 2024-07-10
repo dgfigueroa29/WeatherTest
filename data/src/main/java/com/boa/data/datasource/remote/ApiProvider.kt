@@ -3,7 +3,11 @@ package com.boa.data.datasource.remote
 import com.boa.data.util.BASE_URL
 import com.boa.domain.base.BaseError
 import com.boa.domain.base.BaseException
-import com.google.gson.*
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.BuildConfig
@@ -11,7 +15,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import java.lang.reflect.Type
-import java.util.*
+import java.util.Calendar
 import javax.net.ssl.HttpsURLConnection
 
 class ApiProvider {
@@ -44,6 +48,7 @@ class ApiProvider {
         }
     }
 
+    @Suppress("KotlinConstantConditions")
     private fun getOkHttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
         try {
@@ -77,7 +82,6 @@ class ApiProvider {
             }
 
             //Only for debug for checking the api connection
-            @Suppress("ConstantConditionIf")
             if (BuildConfig.BUILD_TYPE == "debug") {
                 val interceptor = HttpLoggingInterceptor()
                 interceptor.level = HttpLoggingInterceptor.Level.HEADERS

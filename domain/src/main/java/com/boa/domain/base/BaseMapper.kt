@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package com.boa.domain.base
 
 /**

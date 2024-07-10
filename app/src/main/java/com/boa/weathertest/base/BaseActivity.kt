@@ -1,4 +1,4 @@
-@file:Suppress("DEPRECATION")
+@file:Suppress("DEPRECATION", "EmptyMethod")
 
 package com.boa.weathertest.base
 
@@ -40,5 +40,6 @@ abstract class BaseActivity<VS, VM : BaseViewModel<VS>> : AppCompatActivity() {
 
     abstract fun initViewModel(): VM
     abstract fun getLayoutResource(): Int
+
     abstract fun onViewStatusUpdated(viewStatus: VS)
 }

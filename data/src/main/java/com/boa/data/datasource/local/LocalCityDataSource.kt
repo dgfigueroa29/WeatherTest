@@ -4,7 +4,7 @@ import com.boa.data.datasource.LocalDataSource
 import com.boa.data.datasource.local.db.AppDatabase
 import com.boa.data.entity.CityEntity
 import com.boa.data.util.CURRENT_LOCATION
-import java.util.*
+import java.util.Locale
 
 class LocalCityDataSource(private val database: AppDatabase) : LocalDataSource {
     override suspend fun getAll(): List<CityEntity> = database.cityDao().getAll()

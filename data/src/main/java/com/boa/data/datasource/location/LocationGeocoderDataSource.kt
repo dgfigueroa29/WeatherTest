@@ -1,5 +1,3 @@
-@file:Suppress("BlockingMethodInNonBlockingContext")
-
 package com.boa.data.datasource.location
 
 import android.content.Context

@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.boa.weathertest.R
 
 class WeatherHolder(view: View) : RecyclerView.ViewHolder(view) {
     val itemForecastTemperature: TextView = view.findViewById(R.id.itemForecastTemperature)

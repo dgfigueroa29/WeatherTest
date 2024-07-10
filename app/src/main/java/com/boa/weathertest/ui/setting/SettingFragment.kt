@@ -9,6 +9,7 @@ import com.boa.domain.util.toStringList
 import com.boa.weathertest.R
 import com.boa.weathertest.base.BaseFragment
 import com.boa.weathertest.base.OnSelectItem
+import com.boa.weathertest.databinding.SettingFragmentBinding
 import com.boa.weathertest.util.build
 import com.boa.weathertest.util.toast
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -27,17 +28,17 @@ class SettingFragment : BaseFragment<SettingViewStatus, SettingViewModel>(),
         savedInstanceState: Bundle?
     ): View? {
         binding = SettingFragmentBinding.inflate(inflater, container, false)
-        return binding?.root as View?
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showLoading()
-        binding?.viewHeaderToolbar?.setNavigationIcon(R.drawable.ic_back)
-        binding?.viewHeaderToolbar?.setNavigationOnClickListener {
+        binding?.settingFragmentHeader?.viewHeaderToolbar?.setNavigationIcon(R.drawable.ic_back)
+        binding?.settingFragmentHeader?.viewHeaderToolbar?.setNavigationOnClickListener {
             requireActivity().onBackPressed()
         }
-        binding?.viewHeaderTitle?.text = getString(R.string.setting)
+        binding?.settingFragmentHeader?.viewHeaderTitle?.text = getString(R.string.setting)
         viewModel.initialize()
     }
 
@@ -60,11 +61,11 @@ class SettingFragment : BaseFragment<SettingViewStatus, SettingViewModel>(),
 
             viewStatus.isReady -> {
                 hideLoading()
-                binding?.settingFragmentSpinner.build(
+                binding?.settingFragmentSpinner?.build(
                     this,
                     WeakReference(requireContext().applicationContext),
                     viewStatus.currentUnits,
-                    UnitType.values().asList().toStringList()
+                    UnitType.entries.toStringList()
                 )
             }
 

@@ -1,5 +1,6 @@
 package com.boa.weathertest.util
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -44,6 +45,7 @@ class ListAdapter<T>(
         holder.itemTitle.text = item.name
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(newList: List<T>) {
         list = newList
         notifyDataSetChanged()

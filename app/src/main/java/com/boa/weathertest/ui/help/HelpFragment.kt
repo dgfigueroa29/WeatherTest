@@ -13,7 +13,9 @@ import android.webkit.WebViewClient
 import androidx.navigation.findNavController
 import com.boa.weathertest.R
 import com.boa.weathertest.base.BaseFragment
-import com.boa.weathertest.util.*
+import com.boa.weathertest.databinding.HelpFragmentBinding
+import com.boa.weathertest.util.build
+import com.boa.weathertest.util.toast
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import java.io.File
 
@@ -29,7 +31,7 @@ class HelpFragment : BaseFragment<HelpViewStatus, HelpViewModel>() {
         savedInstanceState: Bundle?
     ): View? {
         binding = HelpFragmentBinding.inflate(inflater, container, false)
-        return binding?.root as View?
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,7 +55,7 @@ class HelpFragment : BaseFragment<HelpViewStatus, HelpViewModel>() {
             }
             false
         })
-        binding?.helpBackButton.setOnClickListener {
+        binding?.helpBackButton?.setOnClickListener {
             onBackPressed()
         }
     }
@@ -79,10 +81,6 @@ class HelpFragment : BaseFragment<HelpViewStatus, HelpViewModel>() {
     }
 
     private inner class MyWebClient : WebViewClient() {
-        override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-            return false
-        }
-
         override fun onPageFinished(view: WebView?, url: String?) {
             hideLoading()
             super.onPageFinished(view, url)
@@ -93,16 +91,14 @@ class HelpFragment : BaseFragment<HelpViewStatus, HelpViewModel>() {
             request: WebResourceRequest?,
             error: WebResourceError?
         ) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                view.apply {
-                    File(requireActivity().cacheDir, "org.chromium.android_webview").let {
-                        if (error?.errorCode == -2 && (!it.exists() || it.listFiles()?.size ?: 0 < 5)) {
-                            requireActivity().toast(getString(R.string.no_internet))
-                        }
+            view.apply {
+                File(requireActivity().cacheDir, "org.chromium.android_webview").let {
+                    if (error?.errorCode == -2 && (!it.exists() || (it.listFiles()?.size
+                            ?: 0) < 5)
+                    ) {
+                        requireActivity().toast(getString(R.string.no_internet))
                     }
                 }
-            } else {
-                requireActivity().toast(getString(R.string.no_internet))
             }
 
             super.onReceivedError(view, request, error)

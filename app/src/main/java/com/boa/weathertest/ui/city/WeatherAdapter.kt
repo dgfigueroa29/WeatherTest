@@ -59,6 +59,7 @@ class WeatherAdapter<T>(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(newList: List<T>) {
         list = newList
         notifyDataSetChanged()
