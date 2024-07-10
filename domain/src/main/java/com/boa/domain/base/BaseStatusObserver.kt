@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
 import com.boa.domain.model.ResourceStatus
+import timber.log.Timber
 
 class BaseStatusObserver<V, T>(
     private val observer: MediatorLiveData<V>,
@@ -16,19 +17,24 @@ class BaseStatusObserver<V, T>(
         observer.addSource(source, this)
     }
 
-    override fun onChanged(t: BaseResource<T>?) {
-        when (t?.resourceStatus) {
+    override fun onChanged(value: BaseResource<T>) {
+        when (value.resourceStatus) {
             ResourceStatus.LOADING -> {
-                progressCallback(t.progress)
+                progressCallback(value.progress)
             }
 
             ResourceStatus.SUCCESS -> {
-                successCallback(t.data)
+                successCallback(value.data)
                 observer.removeSource(source)
             }
 
             ResourceStatus.ERROR -> {
-                errorCallback(t.exception)
+                errorCallback(value.exception)
+                observer.removeSource(source)
+            }
+
+            else -> {
+                Timber.e("Unknown status Base Observer")
                 observer.removeSource(source)
             }
         }

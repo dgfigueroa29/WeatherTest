@@ -1,12 +1,12 @@
 package com.boa.data.datasource.remote
 
-import com.boa.data.BuildConfig
 import com.boa.data.util.BASE_URL
 import com.boa.domain.base.BaseError
 import com.boa.domain.base.BaseException
 import com.google.gson.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.BuildConfig
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
@@ -66,7 +66,7 @@ class ApiProvider {
                         var error = BaseError(code = "${response.code}")
                         try {
                             error = parser.fromJson(it.charStream(), BaseError::class.java)
-                        } catch (ex: Exception) {
+                        } catch (_: Exception) {
                         } finally {
                             throw BaseException(error)
                         }

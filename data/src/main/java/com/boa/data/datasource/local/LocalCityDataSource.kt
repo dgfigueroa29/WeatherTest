@@ -10,7 +10,7 @@ class LocalCityDataSource(private val database: AppDatabase) : LocalDataSource {
     override suspend fun getAll(): List<CityEntity> = database.cityDao().getAll()
 
     override suspend fun getByText(text: String): List<CityEntity> =
-        database.cityDao().getByText("%${text.toLowerCase(Locale.ROOT)}%")
+        database.cityDao().getByText("%${text.lowercase(Locale.ROOT)}%")
 
     override suspend fun getCurrentLocation(): CityEntity =
         database.cityDao().getByText("%${CURRENT_LOCATION}%")[0]

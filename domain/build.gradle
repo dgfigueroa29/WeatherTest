@@ -1,8 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
-    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp' version "2.0.0-1.0.21"
     id 'koin'
 }
 
@@ -11,6 +10,7 @@ android {
     buildToolsVersion build_versions.build_tools
 
     defaultConfig {
+        namespace build_versions.application_id
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode build_versions.version_code
@@ -25,15 +25,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation libraries.kotlin
-    implementation libraries.core_ktx
-    implementation libraries.koin
-    implementation libraries.coroutines_core
-    implementation libraries.coroutines_android
-    implementation libraries.lifecycle_rx
-    api libraries.timber
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.0.0'
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'org.koin:koin-android:2.2.0-alpha-1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1'
+    implementation 'androidx.lifecycle:lifecycle-reactivestreams-ktx:2.8.3'
+    api 'com.jakewharton.timber:timber:5.0.1'
 }

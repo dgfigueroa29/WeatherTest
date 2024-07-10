@@ -6,8 +6,10 @@ import android.content.pm.PackageManager
 import android.location.Criteria
 import android.location.LocationManager
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.View.VISIBLE
+import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
 import com.boa.domain.model.CityModel
@@ -21,12 +23,12 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.map_fragment.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 
 class MapFragment : BaseFragment<MapViewStatus, MapViewModel>(), OnMapReadyCallback,
     GoogleMap.OnMapClickListener {
+    private var binding: MapFragmentBinding? = null
     private var googleMap: GoogleMap? = null
     private var currentPosition = LatLng(0.0, 0.0)
     private var myMarker: Marker? = null
@@ -36,16 +38,25 @@ class MapFragment : BaseFragment<MapViewStatus, MapViewModel>(), OnMapReadyCallb
 
     override fun getLayoutResource(): Int = R.layout.map_fragment
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = MapFragmentBinding.inflate(inflater, container, false)
+        return binding?.root as View?
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showLoading()
         viewModel.getCurrentCity()
         val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
-        mapBackButton?.setOnClickListener {
+        binding?.mapBackButton?.setOnClickListener {
             onBackPressed()
         }
-        mapSelectButton?.setOnClickListener {
+        binding?.mapSelectButton?.setOnClickListener {
             saveNewLocation()
         }
     }
@@ -84,7 +95,7 @@ class MapFragment : BaseFragment<MapViewStatus, MapViewModel>(), OnMapReadyCallb
             .navigate(R.id.navigation_action_map_to_home)
     }
 
-    override fun onMapReady(map: GoogleMap?) {
+    override fun onMapReady(map: GoogleMap) {
         googleMap = map
 
         if (ActivityCompat.checkSelfPermission(
@@ -118,13 +129,11 @@ class MapFragment : BaseFragment<MapViewStatus, MapViewModel>(), OnMapReadyCallb
         }
     }
 
-    override fun onMapClick(latLng: LatLng?) {
-        if (latLng != null) {
+    override fun onMapClick(latLng: LatLng) {
             viewModel.getCurrentLocation(latLng.latitude, latLng.longitude)
             currentPosition = latLng
             updatePosition()
-            mapSelectButton?.visibility = VISIBLE
-        }
+        binding?.mapSelectButton?.visibility = VISIBLE
     }
 
     private fun updatePosition() {

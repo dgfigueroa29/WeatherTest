@@ -17,16 +17,18 @@ import com.boa.weathertest.R
 abstract class BaseFragment<VS, VM : BaseViewModel<VS>> : Fragment() {
     lateinit var viewModel: VM
     private var progressDialog: ProgressDialog? = null
+    var baseBinding: BaseFragmentBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(getLayoutResource(), container, false)
+        baseBinding = BaseFragmentBinding.inflate(inflater, container, false)
+        //val view = inflater.inflate(getLayoutResource(), container, false)
         viewModel = initViewModel()
         viewModel.resourceViewStatus.observe(viewLifecycleOwner, viewStatusObserver)
-        return view
+        return baseBinding?.root as View? //view
     }
 
     private val viewStatusObserver = Observer<VS> {

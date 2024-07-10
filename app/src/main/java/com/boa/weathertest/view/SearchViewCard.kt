@@ -6,9 +6,10 @@ import android.view.LayoutInflater
 import android.widget.AutoCompleteTextView
 import android.widget.FrameLayout
 import com.boa.weathertest.R
-import kotlinx.android.synthetic.main.search_card.view.*
 
 class SearchCardView : FrameLayout {
+    var searchCardEditText: AutoCompleteTextView? = null
+
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
         context,
         attrs,
@@ -26,9 +27,11 @@ class SearchCardView : FrameLayout {
     }
 
     private fun init(context: Context) {
-        LayoutInflater.from(context).inflate(R.layout.search_card, this, true)
-        searchCardClear.setOnClickListener { searchCardEditText.text = null }
+        val view = LayoutInflater.from(context).inflate(R.layout.search_card, this, true)
+        val searchCardClear = view.findViewById(R.id.searchCardClear)
+        searchCardEditText = view.findViewById(R.id.searchCardEditText)
+        searchCardClear.setOnClickListener { searchCardEditText?.text = null }
     }
 
-    fun getInput(): AutoCompleteTextView = searchCardEditText
+    fun getInput(): AutoCompleteTextView? = searchCardEditText
 }

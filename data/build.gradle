@@ -1,8 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
-    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp' version "2.0.0-1.0.21"
     id 'koin'
 }
 
@@ -11,6 +10,7 @@ android {
     buildToolsVersion build_versions.build_tools
 
     defaultConfig {
+        namespace build_versions.application_id
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode build_versions.version_code
@@ -28,12 +28,12 @@ android {
         }
 
         compileOptions {
-            sourceCompatibility JavaVersion.VERSION_1_8
-            targetCompatibility JavaVersion.VERSION_1_8
+            sourceCompatibility JavaVersion.VERSION_17
+            targetCompatibility JavaVersion.VERSION_17
         }
 
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = "17"
         }
     }
 
@@ -45,19 +45,23 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation libraries.retrofit
-    implementation libraries.retrofit_gson
-    implementation libraries.interceptor
-    implementation libraries.koin
-    implementation libraries.coroutines_android
-    implementation libraries.coroutines_core
-    implementation libraries.room_runtime
-    kapt libraries.room_compiler
+    implementation 'com.squareup.retrofit2:retrofit:2.11.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.12.0'
+    implementation 'org.koin:koin-android:2.2.0-alpha-1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1'
+    implementation 'androidx.room:room-runtime:2.6.1'
+    ksp 'androidx.room:room-compiler:2.6.1'
     implementation project(':domain')
 }

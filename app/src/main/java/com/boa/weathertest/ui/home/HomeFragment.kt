@@ -3,9 +3,11 @@ package com.boa.weathertest.ui.home
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -23,14 +25,12 @@ import com.boa.weathertest.base.OnRemoveItem
 import com.boa.weathertest.base.OnSelectItem
 import com.boa.weathertest.util.*
 import com.boa.weathertest.view.Stagger
-import kotlinx.android.synthetic.main.home_fragment.*
-import kotlinx.android.synthetic.main.search_card.*
-import kotlinx.android.synthetic.main.view_header.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import java.lang.ref.WeakReference
 
 class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem<CityModel>,
     OnRemoveItem<CityModel> {
+    private var binding: HomeFragmentBinding? = null
     private var cities = listOf<CityModel>()
     private lateinit var listAdapter: ListAdapter<CityModel>
     private var searchEditText: AutoCompleteTextView? = null
@@ -39,6 +39,15 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
     override fun initViewModel(): HomeViewModel = getViewModel()
 
     override fun getLayoutResource(): Int = R.layout.home_fragment
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = HomeFragmentBinding.inflate(inflater, container, false)
+        return binding?.root as View?
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,8 +59,8 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showLoading()
-        searchCardEditText?.hideKeyboard()
-        viewHeaderToolbar?.inflateMenu(R.menu.menu)
+        binding?.searchCardEditText?.hideKeyboard()
+        binding?.viewHeaderToolbar?.inflateMenu(R.menu.menu)
         requestPermissions(
             arrayOf(
                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -60,20 +69,20 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
             PERMISSION_STORAGE_CODE
         )
         val contextRef = WeakReference(requireContext().applicationContext)
-        homeFragmentList?.build(contextRef)
+        binding?.homeFragmentList?.build(contextRef)
         listAdapter = ListAdapter(contextRef, this, this)
-        homeFragmentList?.adapter = listAdapter
-        val mapItem = viewHeaderToolbar?.menu?.findItem(R.id.menu_map_action)
-        val settingItem = viewHeaderToolbar?.menu?.findItem(R.id.menu_setting_action)
-        val helpItem = viewHeaderToolbar?.menu?.findItem(R.id.menu_help_action)
-        searchEditText = homeFragmentSearch.getInput()
+        binding?.homeFragmentList?.adapter = listAdapter
+        val mapItem = binding?.viewHeaderToolbar?.menu?.findItem(R.id.menu_map_action)
+        val settingItem = binding?.viewHeaderToolbar?.menu?.findItem(R.id.menu_setting_action)
+        val helpItem = binding?.viewHeaderToolbar?.menu?.findItem(R.id.menu_help_action)
+        searchEditText = binding?.homeFragmentSearch.getInput()
         searchEditText?.setSelection(searchEditText?.text?.length ?: 0)
         searchEditText?.setHint(R.string.search)
         searchEditText?.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 searchEditText?.hideKeyboard()
                 showLoading()
-                viewModel.getSuggestions(searchCardEditText?.text.toString())
+                viewModel.getSuggestions(binding?.searchCardEditText?.text.toString())
                 return@setOnEditorActionListener true
             }
 
@@ -85,21 +94,21 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
         }
         mapItem?.setOnMenuItemClickListener {
             searchEditText?.hideKeyboard()
-            searchCardClear?.performClick()
+            binding?.searchCardClear?.performClick()
             goToMap = true
             goToMap()
             true
         }
         settingItem?.setOnMenuItemClickListener {
             searchEditText?.hideKeyboard()
-            searchCardClear?.performClick()
+            binding?.searchCardClear?.performClick()
             requireActivity().findNavController(R.id.homeFragmentRoot)
                 .navigate(R.id.navigation_action_home_to_setting)
             true
         }
         helpItem?.setOnMenuItemClickListener {
             searchEditText?.hideKeyboard()
-            searchCardClear?.performClick()
+            binding?.searchCardClear?.performClick()
             requireActivity().findNavController(R.id.homeFragmentRoot)
                 .navigate(R.id.navigation_action_home_to_help)
             true
@@ -140,7 +149,7 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
 
         if (viewStatus.suggestedCities.isNotEmpty()) {
             cities = viewStatus.suggestedCities
-            searchCardEditText?.setAdapter(
+            binding?.searchCardEditText?.setAdapter(
                 ArrayAdapter(
                     requireActivity(),
                     android.R.layout.simple_spinner_item,
@@ -157,9 +166,9 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
             listAdapter.setData(viewStatus.cityList)
 
             if (viewStatus.cityList.isNotEmpty()) {
-                homeFragmentEmptyText?.visibility = GONE
+                binding?.homeFragmentEmptyText?.visibility = GONE
             } else {
-                homeFragmentEmptyText?.visibility = VISIBLE
+                binding?.homeFragmentEmptyText?.visibility = VISIBLE
             }
 
             hideLoading()

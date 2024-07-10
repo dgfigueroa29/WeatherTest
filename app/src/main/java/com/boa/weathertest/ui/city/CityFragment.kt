@@ -1,8 +1,10 @@
 package com.boa.weathertest.ui.city
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.View.VISIBLE
+import android.view.ViewGroup
 import androidx.transition.TransitionManager
 import com.boa.domain.model.WeatherModel
 import com.boa.weathertest.R
@@ -10,13 +12,12 @@ import com.boa.weathertest.base.BaseFragment
 import com.boa.weathertest.util.*
 import com.boa.weathertest.view.Stagger
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.city_fragment.*
-import kotlinx.android.synthetic.main.view_header.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import java.lang.ref.WeakReference
 
 class CityFragment : BaseFragment<CityViewStatus, CityViewModel>() {
-    private lateinit var listAdapter: WeatherAdapter<WeatherModel>
+    private var binding: CityFragmentBinding? = null
+    private var listAdapter: WeatherAdapter<WeatherModel>? = null
     private var cityName = ""
     private var latitude = 0.0
     private var longitude = 0.0
@@ -25,29 +26,38 @@ class CityFragment : BaseFragment<CityViewStatus, CityViewModel>() {
 
     override fun getLayoutResource(): Int = R.layout.city_fragment
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = CityFragmentBinding.inflate(inflater, container, false)
+        return binding?.root as View?
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showLoading()
         val contextRef = WeakReference(requireContext().applicationContext)
-        cityFragmentList?.build(contextRef)
+        binding?.cityFragmentList?.build(contextRef)
         listAdapter = WeatherAdapter(contextRef)
-        cityFragmentList?.adapter = listAdapter
-        viewHeaderToolbar?.setNavigationIcon(R.drawable.ic_back)
-        viewHeaderToolbar?.setNavigationOnClickListener {
+        binding?.cityFragmentList?.adapter = listAdapter
+        binding?.viewHeaderToolbar?.setNavigationIcon(R.drawable.ic_back)
+        binding?.viewHeaderToolbar?.setNavigationOnClickListener {
             requireActivity().onBackPressed()
         }
-        viewHeaderTitle?.text = getString(R.string.cities)
+        binding?.viewHeaderTitle?.text = getString(R.string.cities)
         cityName = receiveSafeString(ARGUMENT_CITY)
         latitude = receiveSafeDouble(ARGUMENT_LAT)
         longitude = receiveSafeDouble(ARGUMENT_LON)
-        cityFragmentName?.text = cityName
+        binding?.cityFragmentName?.text = cityName
         viewModel.initialize()
     }
 
     override fun onViewStatusUpdated(viewStatus: CityViewStatus) {
         when {
             viewStatus.currentUnits.isNotEmpty() -> {
-                listAdapter.currentUnits = viewStatus.currentUnits
+                listAdapter?.currentUnits = viewStatus.currentUnits
                 viewModel.getForecast(latitude, longitude)
             }
 
@@ -66,25 +76,25 @@ class CityFragment : BaseFragment<CityViewStatus, CityViewModel>() {
             }
 
             viewStatus.isReady -> {
-                cityFragmentTemperature?.text = viewStatus.currentTemp
-                cityFragmentTempUnit?.text = viewStatus.currentUnitTemp
-                cityFragmentDetail?.text = viewStatus.currentDetail
-                cityFragmentHumidity?.text = viewStatus.currentHumidity
-                cityFragmentRain?.text = viewStatus.currentRain
-                cityFragmentWind?.text = viewStatus.currentWind
-                cityFragmentHumidity?.visibility = VISIBLE
-                cityFragmentRain?.visibility = VISIBLE
-                cityFragmentWind?.visibility = VISIBLE
+                binding?.cityFragmentTemperature?.text = viewStatus.currentTemp
+                binding?.cityFragmentTempUnit?.text = viewStatus.currentUnitTemp
+                binding?.cityFragmentDetail?.text = viewStatus.currentDetail
+                binding?.cityFragmentHumidity?.text = viewStatus.currentHumidity
+                binding?.cityFragmentRain?.text = viewStatus.currentRain
+                binding?.cityFragmentWind?.text = viewStatus.currentWind
+                binding?.cityFragmentHumidity?.visibility = VISIBLE
+                binding?.cityFragmentRain?.visibility = VISIBLE
+                binding?.cityFragmentWind?.visibility = VISIBLE
 
                 if (viewStatus.currentIcon.isNotEmpty()) {
                     Glide.with(requireActivity()).load(viewStatus.currentIcon)
-                        .into(cityFragmentImage)
-                    cityFragmentImage?.visibility = VISIBLE
+                        .into(binding?.cityFragmentImage)
+                    binding?.cityFragmentImage?.visibility = VISIBLE
                 }
 
                 if (viewStatus.daily.isNotEmpty()) {
-                    TransitionManager.beginDelayedTransition(cityFragmentList, Stagger())
-                    listAdapter.setData(viewStatus.daily)
+                    TransitionManager.beginDelayedTransition(binding?.cityFragmentList, Stagger())
+                    listAdapter?.setData(viewStatus.daily)
                 }
 
                 hideLoading()

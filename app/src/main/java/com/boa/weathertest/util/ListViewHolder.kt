@@ -4,9 +4,8 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_list.view.*
 
 class ListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val itemTitle: TextView = view.itemTitle
-    val itemRemove: ImageButton = view.itemRemove
+    val itemTitle: TextView = view.findViewById(R.id.itemTitle)
+    val itemRemove: ImageButton = view.findViewById(R.id.itemRemove)
 }

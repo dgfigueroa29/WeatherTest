@@ -1,18 +1,24 @@
 buildscript {
     apply from: 'base.gradle'
-    getRepositories(repositories)
+
+    repositories {
+        google()
+        mavenCentral()
+        //noinspection JcenterRepositoryObsolete
+        jcenter()
+        maven { url "https://jitpack.io" }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    }
+
     dependencies {
-        classpath libraries.android_gradle
-        classpath libraries.kotlin_plugin
-        classpath libraries.koin_plugin
-        classpath libraries.google_plugin
+        classpath 'com.android.tools.build:gradle:8.5.0'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0'
+        classpath 'org.koin:koin-gradle-plugin:2.1.5'
+        classpath 'com.google.gms:google-services:4.4.2'
+        classpath 'com.google.devtools.ksp:symbol-processing-api:2.0.0-1.0.21'
     }
 }
 
-allprojects {
-    getRepositories(repositories)
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
+tasks.register('clean', Delete) {
+    delete rootProject.build
 }
