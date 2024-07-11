@@ -41,7 +41,7 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
     OnRemoveItem<CityModel> {
     private var binding: HomeFragmentBinding? = null
     private var cities = listOf<CityModel>()
-    private lateinit var listAdapter: ListAdapter<CityModel>
+    private var listAdapter: ListAdapter<CityModel>? = null
     private var searchEditText: AutoCompleteTextView? = null
     private var goToMap = false
 
@@ -94,7 +94,7 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 searchEditText?.hideKeyboard()
                 showLoading()
-                viewModel.getSuggestions(binding?.homeFragmentSearch?.searchCardEditText?.text.toString())
+                viewModel?.getSuggestions(binding?.homeFragmentSearch?.searchCardEditText?.text.toString())
                 return@setOnEditorActionListener true
             }
 
@@ -102,7 +102,7 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
         }
         searchEditText?.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             showLoading()
-            viewModel.saveCity(position)
+            viewModel?.saveCity(position)
         }
         mapItem?.setOnMenuItemClickListener {
             searchEditText?.hideKeyboard()
@@ -129,7 +129,7 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
 
     override fun onResume() {
         super.onResume()
-        viewModel.getSelected()
+        viewModel?.getSelected()
     }
 
     override fun onViewStatusUpdated(viewStatus: HomeViewStatus) {
@@ -153,7 +153,7 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
             }
 
             viewStatus.isComplete -> {
-                viewModel.getSelected()
+                viewModel?.getSelected()
                 hideLoading()
                 requireContext().applicationContext.toast(getString(R.string.modification_ok))
             }
@@ -180,7 +180,7 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
                     Stagger()
                 )
             }
-            listAdapter.setData(viewStatus.cityList)
+            listAdapter?.setData(viewStatus.cityList)
 
             if (viewStatus.cityList.isNotEmpty()) {
                 binding?.homeFragmentEmptyText?.visibility = GONE
@@ -207,7 +207,7 @@ class HomeFragment : BaseFragment<HomeViewStatus, HomeViewModel>(), OnSelectItem
     }
 
     override fun onRemoveItem(item: CityModel) {
-        viewModel.removeCity(item)
+        viewModel?.removeCity(item)
     }
 
     private fun goToMap() {

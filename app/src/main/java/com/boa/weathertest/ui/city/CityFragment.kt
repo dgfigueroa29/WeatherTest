@@ -58,14 +58,14 @@ class CityFragment : BaseFragment<CityViewStatus, CityViewModel>() {
         latitude = receiveSafeDouble(ARGUMENT_LAT)
         longitude = receiveSafeDouble(ARGUMENT_LON)
         binding?.cityFragmentName?.text = cityName
-        viewModel.initialize()
+        viewModel?.initialize()
     }
 
     override fun onViewStatusUpdated(viewStatus: CityViewStatus) {
         when {
             viewStatus.currentUnits.isNotEmpty() -> {
                 listAdapter?.currentUnits = viewStatus.currentUnits
-                viewModel.getForecast(latitude, longitude)
+                viewModel?.getForecast(latitude, longitude)
             }
 
             viewStatus.isError && viewStatus.errorMessage.isNotEmpty() -> {

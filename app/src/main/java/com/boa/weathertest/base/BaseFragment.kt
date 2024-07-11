@@ -15,7 +15,7 @@ import com.boa.weathertest.R
  * Base Fragment for using in Model-View-ViewModel architecture. Must be specified ViewState and ViewModel classes.
  */
 abstract class BaseFragment<VS, VM : BaseViewModel<VS>> : Fragment() {
-    lateinit var viewModel: VM
+    var viewModel: VM? = null
     private var progressDialog: ProgressDialog? = null
 
     override fun onCreateView(
@@ -25,7 +25,7 @@ abstract class BaseFragment<VS, VM : BaseViewModel<VS>> : Fragment() {
     ): View? {
         val view = inflater.inflate(getLayoutResource(), container, false)
         viewModel = initViewModel()
-        viewModel.resourceViewStatus.observe(viewLifecycleOwner, viewStatusObserver)
+        viewModel?.resourceViewStatus?.observe(viewLifecycleOwner, viewStatusObserver)
         return view
     }
 

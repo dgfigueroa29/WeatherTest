@@ -9,11 +9,11 @@ import kotlinx.coroutines.launch
  * Base UseCase that implements its behaviour. Child UseCases should implement getData with the operation to execute.
  */
 abstract class BaseUseCase<T, P>(private val scope: CoroutineScope) {
-    private lateinit var response: MutableLiveData<BaseResource<T>>
+    private var response: MutableLiveData<BaseResource<T>>? = null
 
-    fun execute(param: P): LiveData<BaseResource<T>> {
+    fun execute(param: P): LiveData<BaseResource<T>>? {
         response = MutableLiveData()
-        response.postValue(
+        response?.postValue(
             BaseResource.loading(
                 0
             )
@@ -22,13 +22,13 @@ abstract class BaseUseCase<T, P>(private val scope: CoroutineScope) {
         scope.launch {
             try {
                 val data = getData(param)
-                response.postValue(
+                response?.postValue(
                     BaseResource.success(
                         data
                     )
                 )
             } catch (ex: Exception) {
-                response.postValue(
+                response?.postValue(
                     BaseResource.error(
                         BaseException(BaseError(ex.message ?: ""))
                     )
@@ -42,7 +42,7 @@ abstract class BaseUseCase<T, P>(private val scope: CoroutineScope) {
     protected abstract suspend fun getData(param: P): T
 
     protected fun postProgress(progress: Int) {
-        response.postValue(
+        response?.postValue(
             BaseResource.loading(
                 progress
             )

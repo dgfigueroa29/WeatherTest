@@ -8,13 +8,15 @@ import timber.log.Timber
 
 class BaseStatusObserver<V, T>(
     private val observer: MediatorLiveData<V>,
-    private val source: LiveData<BaseResource<T>>,
+    private val source: LiveData<BaseResource<T>>?,
     private val successCallback: (d: T?) -> Unit,
     private val errorCallback: (e: BaseException?) -> Unit,
     private val progressCallback: ((p: Int) -> Unit)
 ) : Observer<BaseResource<T>> {
     init {
-        observer.addSource(source, this)
+        if (source != null) {
+            observer.addSource(source, this)
+        }
     }
 
     override fun onChanged(value: BaseResource<T>) {
@@ -25,17 +27,25 @@ class BaseStatusObserver<V, T>(
 
             ResourceStatus.SUCCESS -> {
                 successCallback(value.data)
-                observer.removeSource(source)
+
+                if (source != null) {
+                    observer.removeSource(source)
+                }
             }
 
             ResourceStatus.ERROR -> {
                 errorCallback(value.exception)
-                observer.removeSource(source)
+
+                if (source != null) {
+                    observer.removeSource(source)
+                }
             }
 
             else -> {
                 Timber.e("Unknown status Base Observer")
-                observer.removeSource(source)
+                if (source != null) {
+                    observer.removeSource(source)
+                }
             }
         }
     }

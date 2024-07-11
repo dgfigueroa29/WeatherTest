@@ -37,7 +37,7 @@ class HelpFragment : BaseFragment<HelpViewStatus, HelpViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showLoading()
-        viewModel.initialize()
+        viewModel?.initialize()
         binding?.helpWebView?.settings.build()
         binding?.helpWebView?.webViewClient = MyWebClient()
         binding?.helpWebView?.setOnKeyListener(OnKeyListener { _, keyCode, event ->

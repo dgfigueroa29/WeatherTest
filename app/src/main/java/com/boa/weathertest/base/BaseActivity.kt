@@ -12,13 +12,13 @@ import com.boa.weathertest.R
  * Base Fragment for using in Model-View-ViewModel architecture. Must be specified ViewState and ViewModel classes.
  */
 abstract class BaseActivity<VS, VM : BaseViewModel<VS>> : AppCompatActivity() {
-    private lateinit var viewModel: VM
+    private var viewModel: VM? = null
     private var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = initViewModel()
-        viewModel.resourceViewStatus.observe(this, viewStatusObserver)
+        viewModel?.resourceViewStatus?.observe(this, viewStatusObserver)
         setContentView(getLayoutResource())
     }
 

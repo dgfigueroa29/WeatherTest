@@ -39,7 +39,7 @@ class SettingFragment : BaseFragment<SettingViewStatus, SettingViewModel>(),
             requireActivity().onBackPressed()
         }
         binding?.settingFragmentHeader?.viewHeaderTitle?.text = getString(R.string.setting)
-        viewModel.initialize()
+        viewModel?.initialize()
     }
 
     override fun onViewStatusUpdated(viewStatus: SettingViewStatus) {
@@ -76,6 +76,6 @@ class SettingFragment : BaseFragment<SettingViewStatus, SettingViewModel>(),
     }
 
     override fun onSelectItem(item: String) {
-        viewModel.setUnits(item)
+        viewModel?.setUnits(item)
     }
 }
