@@ -41,5 +41,5 @@ abstract class BaseActivity<VS, VM : BaseViewModel<VS>> : AppCompatActivity() {
     abstract fun initViewModel(): VM
     abstract fun getLayoutResource(): Int
 
-    abstract fun onViewStatusUpdated(viewStatus: VS)
+    abstract fun onViewStatusUpdated(ignoredViewStatus: VS)
 }
