@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'com.google.devtools.ksp' version "2.0.0-1.0.21"
+    id 'com.google.devtools.ksp' version "2.0.0-1.0.23"
     id 'koin'
     id 'com.google.gms.google-services'
 }
@@ -55,8 +55,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.0.0'
-    implementation 'org.jetbrains.kotlin:kotlin-reflect:2.0.0'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.0.10'
+    implementation 'org.jetbrains.kotlin:kotlin-reflect:2.0.10'
     implementation 'org.koin:koin-android:2.2.0-alpha-1'
     implementation 'org.koin:koin-androidx-viewmodel:2.2.0-alpha-1'
     implementation 'androidx.appcompat:appcompat:1.7.0'
@@ -65,7 +65,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.7.7'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.core:core-ktx:1.13.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-reactivestreams-ktx:2.8.4'
