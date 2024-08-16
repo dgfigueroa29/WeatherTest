@@ -1,4 +1,4 @@
-@file:Suppress("DEPRECATION", "EmptyMethod")
+@file:Suppress("DEPRECATION", "EmptyMethod", "unused")
 
 package com.boa.weathertest.base
 
@@ -11,6 +11,7 @@ import com.boa.weathertest.R
 /**
  * Base Fragment for using in Model-View-ViewModel architecture. Must be specified ViewState and ViewModel classes.
  */
+@Suppress("unused")
 abstract class BaseActivity<VS, VM : BaseViewModel<VS>> : AppCompatActivity() {
     private var viewModel: VM? = null
     private var progressDialog: ProgressDialog? = null

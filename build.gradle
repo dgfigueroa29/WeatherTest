@@ -11,11 +11,11 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.5.1'
+        classpath 'com.android.tools.build:gradle:8.5.2'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0'
         classpath 'org.koin:koin-gradle-plugin:2.1.5'
         classpath 'com.google.gms:google-services:4.4.2'
-        classpath 'com.google.devtools.ksp:symbol-processing-api:2.0.0-1.0.23'
+        classpath 'com.google.devtools.ksp:symbol-processing-api:2.0.10-1.0.24'
     }
 }
 

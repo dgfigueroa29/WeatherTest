@@ -12,6 +12,6 @@ class CityEntityToModelMapper : BaseMapper<CityEntity, CityModel>() {
         input.country,
         input.latitude,
         input.longitude,
-        input.selected ?: false
+        input.selected == true
     )
 }
